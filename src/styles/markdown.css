@@ -10,14 +10,7 @@
 }
 
 .prose blockquote {
-  @apply border-l-[3px] border-blue-500 pl-4 my-6 italic text-gray-600;
-}
-
-html.dark .prose blockquote,
-@media (prefers-color-scheme: dark) {
-  .prose blockquote {
-    @apply text-gray-400;
-  }
+  @apply border-l-[3px] border-blue-500 pl-4 my-6 italic text-gray-600 dark:text-gray-400;
 }
 
 .prose table {
@@ -26,37 +19,21 @@ html.dark .prose blockquote,
 }
 
 .prose th {
-  @apply bg-gray-50 font-semibold text-left py-3 px-4 border-b-2 border-gray-200 whitespace-nowrap;
+  @apply bg-gray-50 dark:bg-neutral-900 font-semibold text-left py-3 px-4
+    border-b-2 border-gray-200 dark:border-neutral-700
+    whitespace-nowrap dark:text-neutral-300;
 }
 
 .prose td {
-  @apply py-3 px-4 border-b border-gray-200 align-top;
+  @apply py-3 px-4 border-b border-gray-200 dark:border-neutral-700 align-top;
 }
 
 .prose tbody tr:nth-child(even) {
-  @apply bg-gray-50;
+  @apply bg-gray-50 dark:bg-neutral-900/50;
 }
 
 .prose tbody tr:hover {
-  @apply bg-gray-100;
-}
-
-@media (prefers-color-scheme: dark) {
-  .prose th {
-    @apply bg-neutral-900 border-neutral-700 text-neutral-300;
-  }
-
-  .prose td {
-    @apply border-neutral-700;
-  }
-
-  .prose tbody tr:nth-child(even) {
-    @apply bg-neutral-900/50;
-  }
-
-  .prose tbody tr:hover {
-    @apply bg-neutral-800;
-  }
+  @apply bg-gray-100 dark:bg-neutral-800;
 }
 
 .prose pre {
