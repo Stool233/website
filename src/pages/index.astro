@@ -1,0 +1,40 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import siteConfig from "../site-config";
+import ListPosts from "../components/ListPosts";
+import { getPosts } from "../utils/posts";
+
+export const prerender = true;
+
+const posts = await getPosts();
+---
+
+<BaseLayout description={siteConfig.description}>
+  <div class="text-xl mt-8">
+    <div class="mb-8 text-3xl">
+      <h1
+        class="xl:text-9xl md:text-7xl text-6xl font-neucha text-[#eaeaea] dark:text-[#474747] relative -ml-2 -mb-4 xl:-ml-18 xl:-mb-12 -z-10"
+      >
+        hi !
+      </h1>
+      <p
+        class="text-slate-900 text-2xl sm:text-3xl lg:text-4xl tracking-tight dark:text-white"
+      >
+        I'm <span id="name">{siteConfig.author}</span>, welcome to my website
+      </p>
+    </div>
+    <div class="text-base text-gray-600 dark:text-neutral-400">
+      <p>
+        This is my personal space where I share my thoughts, learnings, and projects.
+      </p>
+    </div>
+    <div class="mt-16">
+      <h1
+        class="xl:text-7xl md:text-6xl text-4xl font-neucha text-[#eaeaea] dark:text-[#474747] relative -ml-2 -mb-4 xl:-ml-18 xl:-mb-8 -z-10"
+      >
+        blog
+      </h1>
+      <ListPosts list={posts as any[]} mini={true} client:load />
+    </div>
+  </div>
+</BaseLayout>

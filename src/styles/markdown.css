@@ -1,0 +1,115 @@
+.prose a {
+  @apply text-sky-600 dark:text-white whitespace-nowrap cursor-pointer
+    border-b border-sky-600/30 hover:border-sky-600
+    dark:border-neutral-500 hover:dark:border-neutral-400
+    transition-colors duration-200 no-underline;
+}
+
+.prose img {
+  @apply w-full mx-auto;
+}
+
+.prose blockquote {
+  @apply border-l-[3px] border-blue-500 pl-4 my-6 italic text-gray-600;
+}
+
+html.dark .prose blockquote,
+@media (prefers-color-scheme: dark) {
+  .prose blockquote {
+    @apply text-gray-400;
+  }
+}
+
+.prose table {
+  @apply w-full text-sm leading-relaxed my-6 block overflow-x-auto;
+  border-collapse: collapse;
+}
+
+.prose th {
+  @apply bg-gray-50 font-semibold text-left py-3 px-4 border-b-2 border-gray-200 whitespace-nowrap;
+}
+
+.prose td {
+  @apply py-3 px-4 border-b border-gray-200 align-top;
+}
+
+.prose tbody tr:nth-child(even) {
+  @apply bg-gray-50;
+}
+
+.prose tbody tr:hover {
+  @apply bg-gray-100;
+}
+
+@media (prefers-color-scheme: dark) {
+  .prose th {
+    @apply bg-neutral-900 border-neutral-700 text-neutral-300;
+  }
+
+  .prose td {
+    @apply border-neutral-700;
+  }
+
+  .prose tbody tr:nth-child(even) {
+    @apply bg-neutral-900/50;
+  }
+
+  .prose tbody tr:hover {
+    @apply bg-neutral-800;
+  }
+}
+
+.prose pre {
+  @apply rounded-lg p-4 overflow-x-auto my-4 text-sm;
+}
+
+.prose code {
+  @apply text-sm;
+}
+
+.prose :not(pre) > code {
+  @apply bg-gray-100 dark:bg-neutral-800 px-1.5 py-0.5 rounded text-sm;
+}
+
+.prose h1,
+.prose h2,
+.prose h3,
+.prose h4 {
+  @apply font-semibold mt-8 mb-4;
+}
+
+.prose h1 {
+  @apply text-3xl;
+}
+
+.prose h2 {
+  @apply text-2xl;
+}
+
+.prose h3 {
+  @apply text-xl;
+}
+
+.prose p {
+  @apply my-4 leading-relaxed;
+}
+
+.prose ul,
+.prose ol {
+  @apply my-4 pl-6;
+}
+
+.prose li {
+  @apply my-1;
+}
+
+.prose hr {
+  @apply my-8 border-gray-200 dark:border-neutral-700;
+}
+
+@media (max-width: 640px) {
+  .prose th,
+  .prose td {
+    @apply py-2 px-3 text-xs;
+  }
+}

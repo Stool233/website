@@ -1,0 +1,28 @@
+---
+import { ViewTransitions } from "astro:transitions";
+import BaseHead from "../components/BaseHead.astro";
+import Header from "../components/Header";
+import Footer from "../components/Footer.astro";
+
+const {
+  pageOperate = false,
+  width = "max-w-3xl",
+  tags = [],
+  ...head
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead {...head} />
+    <ViewTransitions />
+  </head>
+  <body class="font-sans">
+    <Header client:load pathname={Astro.url.pathname} />
+    <main class:list={["grow mx-auto py-10 px-6", width]}>
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

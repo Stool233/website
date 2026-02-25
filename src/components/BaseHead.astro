@@ -1,0 +1,99 @@
+---
+import siteConfig from "../site-config";
+import "../styles/global.css";
+import "../styles/markdown.css";
+
+export type Props = {
+  title?: string;
+  description?: string;
+  image?: { src: string; alt?: string };
+  pageType?: "website" | "article";
+  articleSchema?: {
+    headline: string;
+    datePublished: string;
+    description?: string;
+  };
+};
+
+const {
+  description = siteConfig.description,
+  image = { src: "/favicon.svg", alt: siteConfig.title },
+  pageType = "website",
+  articleSchema,
+} = Astro.props;
+
+const title = [Astro.props.title, siteConfig.title].filter(Boolean).join(" | ");
+
+const resolvedImage = image?.src
+  ? {
+      src: new URL(image.src, Astro.site).toString(),
+      alt: image.alt,
+    }
+  : undefined;
+
+const canonicalURL = new URL(Astro.request.url, Astro.site);
+
+const personSchema = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: siteConfig.author,
+  url: siteConfig.site,
+  sameAs: siteConfig.footerNavLinks.map((link) => link.href),
+};
+
+const articleJsonLd = articleSchema
+  ? {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      headline: articleSchema.headline,
+      author: {
+        "@type": "Person",
+        name: siteConfig.author,
+        url: siteConfig.site,
+      },
+      datePublished: articleSchema.datePublished,
+      description: articleSchema.description || description,
+    }
+  : null;
+---
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>{title}</title>
+<meta name="generator" content={Astro.generator} />
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=Inter:wght@400..700&family=Neucha&display=swap"
+  rel="stylesheet"
+/>
+
+<!-- Icons -->
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+<!-- SEO -->
+<link rel="canonical" href={canonicalURL} />
+<link rel="sitemap" href="/sitemap-index.xml" />
+<link rel="alternate" type="application/rss+xml" href="/rss.xml" title="RSS" />
+<meta name="description" content={description} />
+
+<!-- Open Graph -->
+<meta property="og:type" content={pageType} />
+<meta property="og:url" content={canonicalURL} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+{resolvedImage?.src && <meta property="og:image" content={resolvedImage.src} />}
+{resolvedImage?.alt && <meta property="og:image:alt" content={resolvedImage.alt} />}
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:url" content={canonicalURL} />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+{resolvedImage?.src && <meta name="twitter:image" content={resolvedImage.src} />}
+
+<!-- Schema.org -->
+<script type="application/ld+json" set:html={JSON.stringify(personSchema)} />
+{articleJsonLd && <script type="application/ld+json" set:html={JSON.stringify(articleJsonLd)} />}

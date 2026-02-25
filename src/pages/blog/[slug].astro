@@ -1,0 +1,146 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import TableOfContents from "../../components/TableOfContents";
+import { getPosts } from "../../utils/posts";
+import { render } from "astro:content";
+
+export const prerender = true;
+
+export async function getStaticPaths() {
+  const posts = await getPosts();
+
+  const entries = await Promise.all(
+    posts.map(async (post) => {
+      const { headings } = await render(post);
+      return {
+        params: { slug: post.id },
+        props: { post, headings },
+      };
+    })
+  );
+
+  return entries;
+}
+
+const { post, headings } = Astro.props;
+const { title, description, date, tags, image } = post.data;
+const { Content } = await render(post);
+
+const rawDate = post.data.date;
+const isoDate =
+  typeof rawDate === "string" ? new Date(rawDate).toISOString() : rawDate;
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  image={image}
+  pageType="article"
+  articleSchema={{
+    headline: title,
+    datePublished: isoDate,
+    description: description,
+  }}
+>
+  <div class="relative">
+    <article class="w-full mb-8 sm:mb-12">
+      <header class="mb-8">
+        <h1 class="text-title">{title}</h1>
+        <div
+          class="flex items-center gap-2 text-gray-400 mt-4 flex-wrap text-sm"
+        >
+          <time>{date}</time>
+          {
+            tags && tags.length > 0 && (
+              <div class="flex gap-1 items-center">
+                <span>·</span>
+                {tags.map((tag: string) => (
+                  <span class="text-link text-xs">#{tag}</span>
+                ))}
+              </div>
+            )
+          }
+        </div>
+      </header>
+
+      <!-- Mobile TOC -->
+      <div class="md:hidden mb-8">
+        <TableOfContents headings={headings} client:load />
+      </div>
+
+      <div class="max-w-none prose">
+        <Content />
+      </div>
+    </article>
+
+    <!-- Desktop TOC -->
+    <div
+      id="toc-wrapper"
+      class="hidden md:block fixed z-10"
+      style="opacity: 0;"
+    >
+      <TableOfContents headings={headings} client:load />
+    </div>
+  </div>
+</BaseLayout>
+
+<script>
+  function setupTOC() {
+    positionTOC();
+    window.addEventListener("resize", positionTOC);
+  }
+
+  function positionTOC() {
+    const tocWrapper = document.getElementById("toc-wrapper");
+    if (!tocWrapper) return;
+
+    const mainContent = document.querySelector("main");
+    if (!mainContent) return;
+
+    const mainRect = mainContent.getBoundingClientRect();
+    const tocWidth = 280;
+
+    if (window.innerWidth >= 1400) {
+      tocWrapper.style.left = `${mainRect.left - tocWidth - 30}px`;
+      tocWrapper.style.display = "block";
+    } else if (window.innerWidth >= 1100) {
+      tocWrapper.style.left = "20px";
+      tocWrapper.style.display = "block";
+    } else {
+      tocWrapper.style.display = "none";
+    }
+
+    tocWrapper.style.top = "120px";
+    tocWrapper.style.width = `${tocWidth}px`;
+    tocWrapper.style.maxHeight = "calc(100vh - 180px)";
+    tocWrapper.style.overflowY = "auto";
+    tocWrapper.style.opacity = "1";
+  }
+
+  document.addEventListener("astro:page-load", setupTOC);
+</script>
+
+<style>
+  #toc-wrapper {
+    transition: opacity 0.3s ease;
+  }
+
+  #toc-wrapper::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  #toc-wrapper::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  #toc-wrapper::-webkit-scrollbar-thumb {
+    background-color: rgba(156, 163, 175, 0.3);
+    border-radius: 4px;
+  }
+
+  @media (max-width: 768px) {
+    #toc-wrapper {
+      display: none !important;
+    }
+  }
+</style>

@@ -1,0 +1,13 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ListPosts from "../components/ListPosts";
+import { getPosts } from "../utils/posts";
+
+export const prerender = true;
+
+const posts = await getPosts();
+---
+
+<BaseLayout title="Blog" description="Blog posts">
+  <ListPosts list={posts as any[]} client:load />
+</BaseLayout>
