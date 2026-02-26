@@ -17,12 +17,44 @@ const {
   <head>
     <BaseHead {...head} />
     <ViewTransitions />
+    <script is:inline>
+      // Dark mode init — prevent FOUC
+      (function() {
+        const theme = localStorage.getItem('theme');
+        if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+          document.documentElement.classList.add('dark');
+        }
+      })();
+    </script>
   </head>
   <body class="font-sans">
     <Header client:load pathname={Astro.url.pathname} />
-    <main class:list={["grow mx-auto py-10 px-6", width]}>
+    <main class:list={["grow mx-auto py-16 px-6", width]}>
       <slot />
     </main>
     <Footer />
+
+    <!-- Cursor Spotlight -->
+    <div id="spotlight" class="pointer-events-none fixed inset-0 z-30 opacity-0 transition-opacity duration-300"></div>
+    <script is:inline>
+      (function() {
+        const el = document.getElementById('spotlight');
+        if (!el || 'ontouchstart' in window) return;
+
+        let raf;
+        document.addEventListener('pointermove', function(e) {
+          if (raf) return;
+          raf = requestAnimationFrame(function() {
+            el.style.background = 'radial-gradient(600px circle at ' + e.clientX + 'px ' + e.clientY + 'px, rgba(55,53,47,0.03), transparent 40%)';
+            el.style.opacity = '1';
+            raf = null;
+          });
+        });
+
+        document.addEventListener('pointerleave', function() {
+          el.style.opacity = '0';
+        });
+      })();
+    </script>
   </body>
 </html>

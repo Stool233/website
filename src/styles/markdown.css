@@ -1,16 +1,19 @@
 .prose a {
-  @apply text-sky-600 dark:text-white whitespace-nowrap cursor-pointer
-    border-b border-sky-600/30 hover:border-sky-600
-    dark:border-neutral-500 hover:dark:border-neutral-400
-    transition-colors duration-200 no-underline;
+  @apply text-accent-dark dark:text-accent-light cursor-pointer
+    underline decoration-accent/30 hover:decoration-accent-dark
+    dark:decoration-accent-light/30 dark:hover:decoration-accent-light
+    underline-offset-2 transition-colors duration-200 no-underline;
 }
 
 .prose img {
-  @apply w-full mx-auto;
+  @apply w-full mx-auto rounded-lg;
 }
 
 .prose blockquote {
-  @apply border-l-[3px] border-blue-500 pl-4 my-6 italic text-gray-600 dark:text-gray-400;
+  @apply border-l-[3px] border-ink-tertiary dark:border-ink-dark-tertiary pl-5 my-8 not-italic
+    text-ink-secondary dark:text-ink-dark-secondary
+    bg-surface-secondary dark:bg-surface-dark-secondary
+    py-4 pr-4 rounded-r-lg;
 }
 
 .prose table {
@@ -19,40 +22,43 @@
 }
 
 .prose th {
-  @apply bg-gray-50 dark:bg-neutral-900 font-semibold text-left py-3 px-4
-    border-b-2 border-gray-200 dark:border-neutral-700
-    whitespace-nowrap dark:text-neutral-300;
+  @apply bg-surface-secondary dark:bg-surface-dark-secondary font-semibold text-left py-3 px-4
+    border-b-2 border-[#e3e3e0] dark:border-[#2f2f2f]
+    whitespace-nowrap text-ink dark:text-ink-dark;
 }
 
 .prose td {
-  @apply py-3 px-4 border-b border-gray-200 dark:border-neutral-700 align-top;
+  @apply py-3 px-4 border-b border-[#e3e3e0] dark:border-[#2f2f2f] align-top;
 }
 
 .prose tbody tr:nth-child(even) {
-  @apply bg-gray-50 dark:bg-neutral-900/50;
+  @apply bg-surface-secondary/50 dark:bg-surface-dark-secondary/50;
 }
 
 .prose tbody tr:hover {
-  @apply bg-gray-100 dark:bg-neutral-800;
+  @apply bg-surface-tertiary dark:bg-surface-dark-tertiary;
 }
 
 .prose pre {
-  @apply rounded-lg p-4 overflow-x-auto my-4 text-sm;
+  @apply rounded-xl p-5 overflow-x-auto my-6 text-sm font-mono
+    border border-[#e3e3e0] dark:border-[#2f2f2f];
 }
 
 .prose code {
-  @apply text-sm;
+  @apply text-sm font-mono;
 }
 
 .prose :not(pre) > code {
-  @apply bg-gray-100 dark:bg-neutral-800 px-1.5 py-0.5 rounded text-sm;
+  @apply bg-surface-secondary dark:bg-surface-dark-secondary text-ink dark:text-ink-dark
+    px-1.5 py-0.5 rounded font-mono text-[0.875em] font-medium
+    border border-[#e3e3e0] dark:border-[#2f2f2f];
 }
 
 .prose h1,
 .prose h2,
 .prose h3,
 .prose h4 {
-  @apply font-semibold mt-8 mb-4;
+  @apply font-semibold mt-8 mb-4 text-ink dark:text-ink-dark scroll-mt-20;
 }
 
 .prose h1 {
@@ -60,7 +66,7 @@
 }
 
 .prose h2 {
-  @apply text-2xl;
+  @apply text-2xl mt-12 mb-6 pb-2 border-b border-[#e3e3e0] dark:border-[#2f2f2f];
 }
 
 .prose h3 {
@@ -84,7 +90,7 @@
 }
 
 .prose hr {
-  @apply my-8 border-gray-200 dark:border-neutral-700;
+  @apply my-8 border-[#e3e3e0] dark:border-[#2f2f2f];
 }
 
 @media (max-width: 640px) {

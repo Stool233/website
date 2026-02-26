@@ -64,21 +64,23 @@ export default function TableOfContents({ headings }: Props) {
   if (filteredHeadings.length === 0) return null;
 
   return (
-    <nav className="rounded-lg p-4">
-      <h2 className="text-base font-semibold mb-3 text-sky-600 dark:text-white">
-        Table of Contents
+    <nav className="rounded-xl bg-surface-secondary/50 dark:bg-surface-dark-secondary/50 backdrop-blur-sm p-5">
+      <h2 className="text-xs font-semibold mb-4 text-ink-tertiary dark:text-ink-dark-tertiary uppercase tracking-wider">
+        Contents
       </h2>
-      <ul className="list-none p-0 m-0">
+      <ul className="list-none p-0 m-0 space-y-0.5">
         {filteredHeadings.map((heading) => (
-          <li key={heading.slug} className="mb-1.5 leading-tight">
+          <li key={heading.slug}>
             <a
               href={`#${heading.slug}`}
               onClick={(e) => handleClick(e, heading.slug)}
               title={heading.text}
-              className={`block text-sm py-1 px-2 rounded transition-all duration-200 no-underline truncate border-l-[3px] ${
+              className={`block text-sm py-1.5 px-3 rounded-md transition-all duration-200 no-underline truncate ${
+                heading.depth === 2 ? "pl-6" : ""
+              } ${
                 activeId === heading.slug
-                  ? "text-sky-600 font-medium bg-blue-600/10 border-sky-600"
-                  : "text-gray-600 dark:text-neutral-500 hover:text-sky-600 hover:bg-gray-200/20 hover:translate-x-0.5 border-transparent"
+                  ? "bg-surface-tertiary dark:bg-surface-dark-tertiary text-ink dark:text-ink-dark font-medium border-l-2 border-ink-tertiary dark:border-ink-dark-tertiary"
+                  : "text-ink-tertiary dark:text-ink-dark-tertiary hover:text-ink dark:hover:text-ink-dark hover:bg-surface-tertiary dark:hover:bg-surface-dark-tertiary"
               }`}
             >
               {heading.text}

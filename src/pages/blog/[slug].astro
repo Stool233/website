@@ -44,28 +44,48 @@ const isoDate =
 >
   <div class="relative">
     <article class="w-full mb-8 sm:mb-12">
-      <header class="mb-8">
-        <h1 class="text-title">{title}</h1>
-        <div
-          class="flex items-center gap-2 text-gray-400 mt-4 flex-wrap text-sm"
+      <header class="mb-10 pb-8 border-b border-slate-200 dark:border-slate-700">
+        <a
+          href="/blog"
+          class="inline-flex items-center gap-1.5 text-sm text-ink-tertiary dark:text-ink-dark-tertiary hover:text-ink dark:hover:text-ink-dark transition-colors mb-6"
         >
-          <time>{date}</time>
-          {
-            tags && tags.length > 0 && (
-              <div class="flex gap-1 items-center">
-                <span>·</span>
-                {tags.map((tag: string) => (
-                  <span class="text-link text-xs">#{tag}</span>
-                ))}
-              </div>
-            )
-          }
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+          </svg>
+          Back to blog
+        </a>
+
+        <h1 class="text-title">{title}</h1>
+
+        {description && (
+          <p class="text-lg text-ink-secondary dark:text-ink-dark-secondary mt-3">{description}</p>
+        )}
+
+        <div class="flex items-center gap-3 text-sm text-ink-tertiary dark:text-ink-dark-tertiary mt-4 flex-wrap">
+          <time class="tabular-nums">{date}</time>
+          {tags && tags.length > 0 && (
+            <div class="flex gap-2 items-center">
+              <span>&middot;</span>
+              {tags.map((tag: string) => (
+                <span class="px-2 py-0.5 rounded-full bg-surface-tertiary dark:bg-surface-dark-tertiary text-ink-secondary dark:text-ink-dark-secondary text-xs font-medium">
+                  {tag}
+                </span>
+              ))}
+            </div>
+          )}
         </div>
       </header>
 
       <!-- Mobile TOC -->
       <div class="md:hidden mb-8">
-        <TableOfContents headings={headings} client:load />
+        <details class="rounded-xl border border-slate-200 dark:border-slate-700 p-4">
+          <summary class="font-medium text-sm text-ink dark:text-ink-dark cursor-pointer">
+            Table of Contents
+          </summary>
+          <div class="mt-3">
+            <TableOfContents headings={headings} client:load />
+          </div>
+        </details>
       </div>
 
       <div class="max-w-none prose">

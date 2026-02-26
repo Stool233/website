@@ -4,31 +4,38 @@
 
 @layer components {
   .nav-link {
-    @apply text-gray-800 dark:text-neutral-400 hover:text-sky-600 transition duration-200 cursor-pointer;
+    @apply text-ink-secondary dark:text-ink-dark-secondary hover:text-ink dark:hover:text-ink-dark transition-colors duration-200 cursor-pointer;
   }
 
   .prose-link {
-    @apply text-sky-600 dark:text-white whitespace-nowrap cursor-pointer
-      border-b border-sky-600/30 hover:border-sky-600
-      dark:border-neutral-500 hover:dark:border-neutral-400
-      transition-colors duration-200 no-underline;
+    @apply text-accent-dark dark:text-accent-light cursor-pointer
+      underline decoration-accent/30 hover:decoration-accent-dark
+      dark:decoration-accent-light/30 dark:hover:decoration-accent-light
+      underline-offset-2 transition-colors duration-200 no-underline;
   }
 
   .text-main {
-    @apply text-gray-800 dark:text-neutral-400;
+    @apply text-ink dark:text-ink-dark;
   }
 
   .text-link {
-    @apply text-sky-600 dark:text-white;
+    @apply text-accent-dark dark:text-accent-light;
   }
 
   .text-title {
-    @apply text-4xl font-semibold text-gray-800 dark:text-neutral-400;
+    @apply text-3xl sm:text-4xl font-semibold text-ink dark:text-ink-dark;
+  }
+
+  .bento-card {
+    @apply rounded-2xl border border-[#e3e3e0] dark:border-[#2f2f2f]
+      bg-surface dark:bg-surface-dark-secondary
+      p-6 transition-all duration-200
+      hover:bg-surface-secondary dark:hover:bg-surface-dark-tertiary;
   }
 }
 
 @layer base {
   body {
-    @apply bg-white dark:bg-black text-gray-800 dark:text-neutral-400 min-h-screen antialiased;
+    @apply bg-surface dark:bg-surface-dark text-ink-secondary dark:text-ink-dark-secondary min-h-screen antialiased;
   }
 }

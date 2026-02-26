@@ -9,5 +9,6 @@ const posts = await getPosts();
 ---
 
 <BaseLayout title="Blog" description="Blog posts">
+  <h1 class="text-title mb-8">Blog</h1>
   <ListPosts list={posts as any[]} client:load />
 </BaseLayout>

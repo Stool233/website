@@ -1,40 +1,112 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import siteConfig from "../site-config";
-import ListPosts from "../components/ListPosts";
 import { getPosts } from "../utils/posts";
 
 export const prerender = true;
 
 const posts = await getPosts();
+const recentPosts = posts.slice(0, 4);
 ---
 
-<BaseLayout description={siteConfig.description}>
-  <div class="text-xl mt-8">
-    <div class="mb-8 text-3xl">
-      <h1
-        class="xl:text-9xl md:text-7xl text-6xl font-neucha text-[#eaeaea] dark:text-[#474747] relative -ml-2 -mb-4 xl:-ml-18 xl:-mb-12 -z-10"
-      >
-        hi !
+<BaseLayout description={siteConfig.description} width="max-w-4xl">
+  <!-- Bento Grid -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-5">
+
+    <!-- Hero Card (spans 2 cols) -->
+    <div class="bento-card md:col-span-2 flex flex-col justify-center min-h-[200px]">
+      <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-4">
+        <span class="text-ink dark:text-ink-dark">Hi, I'm </span>
+        <span class="text-ink dark:text-ink-dark">{siteConfig.author}</span>
       </h1>
-      <p
-        class="text-slate-900 text-2xl sm:text-3xl lg:text-4xl tracking-tight dark:text-white"
-      >
-        I'm <span id="name">{siteConfig.author}</span>, welcome to my website
-      </p>
-    </div>
-    <div class="text-base text-gray-600 dark:text-neutral-400">
-      <p>
+      <p class="text-lg text-ink-secondary dark:text-ink-dark-secondary leading-relaxed max-w-lg">
         This is my personal space where I share my thoughts, learnings, and projects.
       </p>
     </div>
-    <div class="mt-16">
-      <h1
-        class="xl:text-7xl md:text-6xl text-4xl font-neucha text-[#eaeaea] dark:text-[#474747] relative -ml-2 -mb-4 xl:-ml-18 xl:-mb-8 -z-10"
-      >
-        blog
-      </h1>
-      <ListPosts list={posts as any[]} mini={true} client:load />
+
+    <!-- Social Links Card -->
+    <div class="bento-card flex flex-col justify-between">
+      <h2 class="text-sm font-semibold text-ink-tertiary dark:text-ink-dark-tertiary uppercase tracking-wider mb-4">
+        Links
+      </h2>
+      <div class="flex flex-col gap-2">
+        <a
+          href="https://github.com/Stool233"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-surface-tertiary dark:hover:bg-surface-dark-tertiary transition-all duration-200 group"
+        >
+          <svg class="w-5 h-5 text-ink-tertiary dark:text-ink-dark-tertiary group-hover:text-ink dark:group-hover:text-ink-dark transition-colors" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+          </svg>
+          <span class="text-sm font-medium text-ink-secondary dark:text-ink-dark-secondary group-hover:text-ink dark:group-hover:text-ink-dark transition-colors">GitHub</span>
+        </a>
+        <a
+          href="/rss.xml"
+          class="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-surface-tertiary dark:hover:bg-surface-dark-tertiary transition-all duration-200 group"
+        >
+          <svg class="w-5 h-5 text-ink-tertiary dark:text-ink-dark-tertiary group-hover:text-ink dark:group-hover:text-ink-dark transition-colors" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M6.18 15.64a2.18 2.18 0 0 1 2.18 2.18C8.36 19 7.38 20 6.18 20C5 20 4 19 4 17.82a2.18 2.18 0 0 1 2.18-2.18M4 4.44A15.56 15.56 0 0 1 19.56 20h-2.83A12.73 12.73 0 0 0 4 7.27V4.44m0 5.66a9.9 9.9 0 0 1 9.9 9.9h-2.83A7.07 7.07 0 0 0 4 12.93V10.1z" />
+          </svg>
+          <span class="text-sm font-medium text-ink-secondary dark:text-ink-dark-secondary group-hover:text-ink dark:group-hover:text-ink-dark transition-colors">RSS Feed</span>
+        </a>
+      </div>
     </div>
+
+    <!-- Recent Posts -->
+    {recentPosts.map((post, i) => {
+      const href = post.data.redirect || `/${post.collection}/${post.id}`;
+      const target = post.data.redirect ? "_blank" : "_self";
+      const isWide = i === 0;
+      return (
+        <a
+          href={href}
+          target={target}
+          class:list={[
+            "bento-card group flex flex-col justify-between hover:-translate-y-0.5",
+            isWide && "md:col-span-2",
+          ]}
+        >
+          <div>
+            <div class="flex items-center gap-2 mb-3">
+              <time class="text-xs text-ink-tertiary dark:text-ink-dark-tertiary tabular-nums">
+                {post.data.date}
+              </time>
+              {post.data.tags?.map((tag: string) => (
+                <span class="px-2 py-0.5 rounded-full bg-surface-tertiary dark:bg-surface-dark-tertiary text-ink-secondary dark:text-ink-dark-secondary text-xs font-medium">
+                  {tag}
+                </span>
+              ))}
+            </div>
+            <h3 class="text-lg font-semibold text-ink dark:text-ink-dark group-hover:text-ink dark:group-hover:text-ink-dark transition-colors leading-snug">
+              {post.data.title}
+            </h3>
+            {post.data.description && (
+              <p class="mt-2 text-sm text-ink-secondary dark:text-ink-dark-secondary line-clamp-2">
+                {post.data.description}
+              </p>
+            )}
+          </div>
+          <div class="mt-4 text-xs text-ink-secondary dark:text-ink-dark-secondary font-medium flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+            Read more
+            <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+          </div>
+        </a>
+      );
+    })}
+
+    <!-- View All Posts Card -->
+    <a
+      href="/blog"
+      class="bento-card flex items-center justify-center group hover:-translate-y-0.5"
+    >
+      <div class="text-center">
+        <span class="text-sm font-medium text-ink-secondary dark:text-ink-dark-secondary group-hover:text-ink dark:group-hover:text-ink-dark transition-colors">
+          View all posts &rarr;
+        </span>
+      </div>
+    </a>
   </div>
 </BaseLayout>

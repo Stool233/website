@@ -29,72 +29,70 @@ function getTarget(post: Post) {
 
 export default function ListPosts({ list, mini = false }: Props) {
   if (!list || list.length === 0) {
-    return <div className="py-2 text-gray-400">nothing here yet.</div>;
+    return <div className="py-6 text-ink-tertiary dark:text-ink-dark-tertiary text-sm">nothing here yet.</div>;
+  }
+
+  if (mini) {
+    return (
+      <ul className="list-none p-0 space-y-1">
+        {list.map((post) => (
+          <li key={post.data.title}>
+            <a
+              href={getHref(post)}
+              target={getTarget(post)}
+              className="group flex items-baseline gap-4 py-2.5 px-3 -mx-3 rounded-lg hover:bg-surface-secondary dark:hover:bg-surface-dark-secondary transition-all duration-200"
+            >
+              <time className="text-xs text-ink-tertiary dark:text-ink-dark-tertiary tabular-nums flex-none w-24">
+                {post.data.date}
+              </time>
+              <span className="text-sm font-medium text-ink dark:text-ink-dark group-hover:text-ink dark:group-hover:text-ink-dark transition-colors truncate">
+                {post.data.title}
+              </span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    );
   }
 
   return (
-    <ul className="list-none p-0">
+    <ul className="list-none p-0 space-y-3">
       {list.map((post, index) => (
-        <li key={post.data.title} className={mini ? "mb-4" : "mb-6"}>
+        <li key={post.data.title}>
           {/* Year separator */}
-          {!mini &&
-            !isSameYear(post.data.date, list[index - 1]?.data.date) && (
-              <div className="select-none relative h-18 pointer-events-none">
-                <span className="text-7xl -ml-2 xl:-ml-18 absolute -top-1 -z-10 font-neucha text-[#eaeaea] dark:text-[#474747]">
-                  {getYear(post.data.date)}
-                </span>
-              </div>
-            )}
-
-          <div className="text-lg leading-tight flex flex-col gap-1">
-            {/* Title row */}
-            <div
-              className={`flex flex-col md:flex-row md:items-center flex-wrap ${
-                mini ? "text-sm" : "text-lg"
-              }`}
-            >
-              {mini && (
-                <time className="w-32 flex-none text-gray-500">
-                  {post.data.date}
-                </time>
-              )}
-              <a
-                target={getTarget(post)}
-                href={getHref(post)}
-                className={`nav-link ${
-                  mini ? "text-lg text-link" : "text-2xl"
-                }`}
-              >
-                <span className="leading-normal inline-flex items-center">
-                  {post.data.title}
-                </span>
-              </a>
+          {!isSameYear(post.data.date, list[index - 1]?.data.date) && (
+            <div className="select-none relative h-16 pointer-events-none">
+              <span className="text-6xl xl:text-7xl font-neucha text-ink/[0.06] dark:text-ink-dark/[0.06] absolute -left-2 xl:-left-16 -top-1">
+                {getYear(post.data.date)}
+              </span>
             </div>
+          )}
 
-            {/* Description */}
-            {!mini && post.data.description && (
-              <div className="text-gray-500 text-base">
+          <a
+            href={getHref(post)}
+            target={getTarget(post)}
+            className="group block p-5 -mx-2 rounded-xl border border-transparent hover:border-slate-200/80 dark:hover:border-slate-700/50 hover:bg-surface-secondary/50 dark:hover:bg-surface-dark-secondary/50 transition-all duration-300 hover:shadow-sm hover:-translate-y-0.5"
+          >
+            <h3 className="text-xl font-semibold text-ink dark:text-ink-dark group-hover:text-ink dark:group-hover:text-ink-dark transition-colors mb-2 leading-snug">
+              {post.data.title}
+            </h3>
+            {post.data.description && (
+              <p className="text-sm text-ink-secondary dark:text-ink-dark-secondary mb-3 line-clamp-2">
                 {post.data.description}
-              </div>
+              </p>
             )}
-
-            {/* Meta: date + tags */}
-            {!mini && (
-              <div className="text-gray-500 text-sm whitespace-nowrap flex gap-1 items-center flex-wrap w-full">
-                <time>{post.data.date}</time>
-                {post.data.tags && post.data.tags.length > 0 && (
-                  <div className="flex gap-1 items-center">
-                    <span>·</span>
-                    {post.data.tags.map((tag: string) => (
-                      <span key={tag} className="text-link text-xs">
-                        #{tag}
-                      </span>
-                    ))}
-                  </div>
-                )}
-              </div>
-            )}
-          </div>
+            <div className="flex items-center gap-3 text-xs text-ink-tertiary dark:text-ink-dark-tertiary">
+              <time className="tabular-nums">{post.data.date}</time>
+              {post.data.tags?.map((tag: string) => (
+                <span
+                  key={tag}
+                  className="px-2 py-0.5 rounded-full bg-surface-tertiary dark:bg-surface-dark-tertiary text-ink-secondary dark:text-ink-dark-secondary font-medium"
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </a>
         </li>
       ))}
     </ul>
