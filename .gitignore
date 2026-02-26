@@ -203,3 +203,14 @@ dist
 
 ### Auto-generated ###
 worker-configuration.d.ts
+
+
+### Agent Skills ###
+.agents/
+.claude/
+.cline/
+.codebuddy/
+.goose/
+.trae/
+.windsurf/
+skills-lock.json
