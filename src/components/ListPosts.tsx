@@ -20,7 +20,7 @@ function isSameYear(a: string | Date | undefined, b: string | Date | undefined) 
 
 function getHref(post: Post) {
   if (post.data.redirect) return post.data.redirect;
-  return `/${post.collection}/${post.slug}`;
+  return `/${post.collection}/${post.id}`;
 }
 
 function getTarget(post: Post) {

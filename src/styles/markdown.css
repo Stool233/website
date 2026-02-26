@@ -71,9 +71,12 @@
   @apply my-4 leading-relaxed;
 }
 
-.prose ul,
+.prose ul {
+  @apply my-4 pl-6 list-disc;
+}
+
 .prose ol {
-  @apply my-4 pl-6;
+  @apply my-4 pl-6 list-decimal;
 }
 
 .prose li {
