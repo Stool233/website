@@ -57,7 +57,7 @@ export default function Header({ pathname }: Props) {
       <div className="max-w-3xl mx-auto h-16 px-6 flex items-center justify-between">
         <a
           href="/"
-          className="font-semibold text-lg text-ink dark:text-ink-dark hover:text-ink dark:hover:text-ink-dark transition-colors"
+          className="font-semibold text-lg text-ink dark:text-ink-dark hover:text-ink dark:hover:text-ink-dark transition-colors lowercase"
         >
           {siteConfig.title}
         </a>
