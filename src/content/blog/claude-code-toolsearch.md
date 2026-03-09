@@ -51,7 +51,7 @@ Structurally, the pipeline has two phases:
 
 The discovery phase may require only one round of `ToolSearch`, or it may take several — depending on task complexity and how familiar the model is with the tool pool. In a Chrome DevTools sample we analyzed, the model went through two rounds of discovery: the first round used `+chrome-devtools` to find 5 interaction tools (click, drag, etc.), then, finding it lacked observation tools, the second round used `select:` to add list_pages, take_screenshot, and 3 others. If the first search had returned sufficient tools, a single round would have been enough to enter the execution phase.
 
-The sequence diagram below illustrates this specific sample's two-round discovery process:
+Note that in each request, the orchestration layer includes an `<available-deferred-tools>` name list in the prompt — this is the "menu" the model reads before deciding what to search for via `ToolSearch`. The sequence diagram below illustrates this specific sample's two-round discovery process:
 
 ```mermaid
 sequenceDiagram
@@ -61,20 +61,22 @@ sequenceDiagram
     participant P as Candidate Tool Pool
 
     Note over O,P: Discovery phase (variable number of rounds)
-    O->>L: tools=[ToolSearch]
+    O->>L: tools=[ToolSearch] + prompt contains <available-deferred-tools> name list
+    Note over L: Model reads candidate catalog,<br/>decides which tools to search for
     L->>S: "+chrome-devtools"
     S->>P: Query
     P-->>S: 5 matches
     S-->>O: tool_reference ×5
     O->>O: Update loaded tool set
 
-    O->>L: tools=[ToolSearch + 5 tools]
+    O->>L: tools=[ToolSearch + 5 tools] + <available-deferred-tools>
+    Note over L: Model finds observation tools<br/>still needed from catalog
     L->>S: select:list_pages,take_screenshot...
     S-->>O: tool_reference ×5
     O->>O: Update again
 
     Note over O,P: Execution phase
-    O->>L: tools=[ToolSearch + 10 tools]
+    O->>L: tools=[ToolSearch + 10 tools] + <available-deferred-tools>
     L->>L: Call list_pages to execute task
 ```
 
