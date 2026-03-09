@@ -5,6 +5,7 @@ export const siteConfig = {
   site: "https://wengjialin-website.workers.dev",
   headerNavLinks: [
     { text: "blog", href: "/blog" },
+    { text: "about", href: "/about" },
   ],
   footerNavLinks: [
     { text: "github", href: "https://github.com/Stool233" },
