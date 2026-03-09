@@ -99,3 +99,11 @@
     @apply py-2 px-3 text-xs;
   }
 }
+
+.prose .mermaid-diagram {
+  @apply my-8 flex justify-center;
+}
+
+.prose .mermaid-diagram svg {
+  @apply max-w-full h-auto;
+}
