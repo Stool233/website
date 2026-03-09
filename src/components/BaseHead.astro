@@ -17,7 +17,7 @@ export type Props = {
 
 const {
   description = siteConfig.description,
-  image = { src: "/favicon.svg", alt: siteConfig.title },
+  image = { src: "/og-default.jpg", alt: siteConfig.title },
   pageType = "website",
   articleSchema,
 } = Astro.props;
@@ -31,7 +31,7 @@ const resolvedImage = image?.src
     }
   : undefined;
 
-const canonicalURL = new URL(Astro.request.url, Astro.site);
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
 const personSchema = {
   "@context": "https://schema.org",
@@ -53,6 +53,32 @@ const articleJsonLd = articleSchema
       },
       datePublished: articleSchema.datePublished,
       description: articleSchema.description || description,
+    }
+  : null;
+
+const breadcrumbJsonLd = articleSchema
+  ? {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: siteConfig.site,
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Blog",
+          item: `${siteConfig.site}/blog`,
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
+          name: articleSchema.headline,
+        },
+      ],
     }
   : null;
 ---
@@ -81,6 +107,8 @@ const articleJsonLd = articleSchema
 
 <!-- Open Graph -->
 <meta property="og:type" content={pageType} />
+<meta property="og:site_name" content={siteConfig.title} />
+<meta property="og:locale" content="en_US" />
 <meta property="og:url" content={canonicalURL} />
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
@@ -97,3 +125,4 @@ const articleJsonLd = articleSchema
 <!-- Schema.org -->
 <script type="application/ld+json" set:html={JSON.stringify(personSchema)} />
 {articleJsonLd && <script type="application/ld+json" set:html={JSON.stringify(articleJsonLd)} />}
+{breadcrumbJsonLd && <script type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} />}

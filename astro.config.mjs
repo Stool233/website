@@ -6,7 +6,7 @@ import tailwind from "@astrojs/tailwind";
 import react from "@astrojs/react";
 
 export default defineConfig({
-  site: "https://wengjialin-website.workers.dev",
+  site: "https://wengjialin.com",
   output: "server",
   integrations: [tailwind(), react(), mdx(), sitemap()],
   adapter: cloudflare({

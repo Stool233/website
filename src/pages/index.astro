@@ -34,6 +34,7 @@ const recentPosts = posts.slice(0, 4);
           href="https://github.com/Stool233"
           target="_blank"
           rel="noopener noreferrer"
+          aria-label="GitHub profile"
           class="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-surface-tertiary dark:hover:bg-surface-dark-tertiary transition-all duration-200 group"
         >
           <svg class="w-5 h-5 text-ink-tertiary dark:text-ink-dark-tertiary group-hover:text-ink dark:group-hover:text-ink-dark transition-colors" viewBox="0 0 24 24" fill="currentColor">
@@ -43,6 +44,7 @@ const recentPosts = posts.slice(0, 4);
         </a>
         <a
           href="mailto:christry.stool@gmail.com"
+          aria-label="Send email"
           class="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-surface-tertiary dark:hover:bg-surface-dark-tertiary transition-all duration-200 group"
         >
           <svg class="w-5 h-5 text-ink-tertiary dark:text-ink-dark-tertiary group-hover:text-ink dark:group-hover:text-ink-dark transition-colors" viewBox="0 0 24 24" fill="currentColor">
@@ -78,7 +80,7 @@ const recentPosts = posts.slice(0, 4);
         >
           <div>
             <div class="flex items-center gap-2 mb-3">
-              <time class="text-xs text-ink-tertiary dark:text-ink-dark-tertiary tabular-nums">
+              <time class="text-xs text-ink-tertiary dark:text-ink-dark-tertiary tabular-nums" datetime={new Date(post.data.date).toISOString()}>
                 {post.data.date}
               </time>
               {post.data.tags?.map((tag: string) => (

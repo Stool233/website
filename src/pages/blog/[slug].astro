@@ -62,7 +62,7 @@ const isoDate =
         )}
 
         <div class="flex items-center gap-3 text-sm text-ink-tertiary dark:text-ink-dark-tertiary mt-4 flex-wrap">
-          <time class="tabular-nums">{date}</time>
+          <time class="tabular-nums" datetime={isoDate}>{date}</time>
           {tags && tags.length > 0 && (
             <div class="flex gap-2 items-center">
               <span>&middot;</span>
