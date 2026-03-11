@@ -131,15 +131,32 @@ These three gains address three layers of the problem: token cost, available con
 
 ## 6. Relationship to the Official Tool Search Tool API
 
-When understanding this mechanism, it is important to distinguish Claude Code's `ToolSearch` from the official [Tool Search Tool](https://platform.claude.com/docs/en/agents-and-tools/tool-use/tool-search-tool) in the Anthropic API.
+When understanding this mechanism, it is important to distinguish Claude Code's `ToolSearch` from the official [Tool Search Tool](https://platform.claude.com/docs/en/agents-and-tools/tool-use/tool-search-tool) in the Anthropic API. The official API actually offers two modes — a server-side built-in and a custom client-side implementation — and Claude Code's approach relates to each differently.
 
-**Where they align:** Both adopt a deferred loading approach, both use `tool_reference` for indirect referencing, and both emphasize narrowing the candidate set before making calls.
+### Comparison with the Server-Side Built-in
 
-**Where they diverge:** The [official API protocol](https://platform.claude.com/docs/en/agents-and-tools/tool-use/tool-search-tool) requires passing all candidate tool definitions in the top-level `tools` parameter with `defer_loading: true`, uses dedicated block types like `server_tool_use` / `tool_search_tool_result` in responses, and supports regex and BM25 query syntax. Claude Code's packet capture behavior differs — the first round's `tools` contains only `ToolSearch`, candidate tools are exposed through an `<available-deferred-tools>` name list, responses use standard `tool_use` / `tool_result` blocks, and the query syntax uses custom `+keyword` and `select:name` forms.
+The official server-side tool search (`tool_search_tool_regex_20251119` / `tool_search_tool_bm25_20251119`) works as follows: all candidate tool definitions are passed in the top-level `tools` parameter with `defer_loading: true`, the API uses dedicated block types (`server_tool_use` / `tool_search_tool_result`) in responses, and search supports regex or BM25 query syntax. The API itself handles expanding `tool_reference` entries into full tool schemas.
 
-The [official documentation](https://platform.claude.com/docs/en/agents-and-tools/tool-use/tool-search-tool) has a section titled "Custom tool search implementation" that describes exactly this pattern: implementing your own search logic and returning `tool_reference` through standard `tool_result` blocks. In terms of protocol shape, Claude Code's approach more closely resembles this custom implementation pattern.
+Claude Code's packet capture behavior diverges from this on every axis: the first round's `tools` contains only `ToolSearch`, candidate tools are exposed through an `<available-deferred-tools>` name list in the prompt (not as `defer_loading: true` entries in the `tools` array), responses use standard `tool_use` / `tool_result` blocks, and the query syntax uses custom `+keyword` and `select:name` forms. Claude Code is clearly not using the server-side built-in.
 
-A conservative conclusion: the two are highly aligned in design goals, but Claude Code's implementation looks more like a custom orchestration-layer wrapper than a pass-through of the official API protocol.
+### Comparison with the Custom Implementation Pattern
+
+The [official documentation](https://platform.claude.com/docs/en/agents-and-tools/tool-use/tool-search-tool) has a section titled "Custom tool search implementation" that describes returning `tool_reference` blocks from a standard `tool_result`. In terms of protocol shape — standard block types, client-defined search logic — Claude Code's approach closely resembles this pattern.
+
+However, there is a key structural difference. The official custom pattern still requires that "every tool referenced must have a corresponding tool definition in the top-level `tools` parameter with `defer_loading: true`." In other words, the full schemas of all candidate tools are sent to the API in every request; the API handles the expansion of `tool_reference` into loaded schemas.
+
+Claude Code does not do this. Candidate tool schemas are absent from the initial `tools` array. The orchestration layer maintains them locally and injects them into the next request's `tools` array after `ToolSearch` returns matching `tool_reference` entries. The expansion responsibility sits in the orchestration layer, not the API.
+
+### Where the Expansion Happens: A Summary
+
+| Aspect | Server-side built-in | Official custom pattern | Claude Code |
+| --- | --- | --- | --- |
+| Candidate schemas in `tools`? | Yes, with `defer_loading: true` | Yes, with `defer_loading: true` | No — only names in prompt |
+| Who expands `tool_reference`? | API | API | Orchestration layer |
+| Response block types | `server_tool_use` / `tool_search_tool_result` | Standard `tool_use` / `tool_result` | Standard `tool_use` / `tool_result` |
+| Query syntax | Regex / BM25 | Client-defined | `+keyword` / `select:name` |
+
+A more precise conclusion: Claude Code borrows the `tool_reference` concept and the "search-then-load" flow from the official custom implementation pattern, but goes a step further — it moves schema storage and expansion entirely into the orchestration layer, avoiding the need to send all candidate schemas to the API. This makes the mechanism fully client-side: the API sees only the tools that the orchestration layer has already decided to load.
 
 ## 7. Engineering Takeaways
 
