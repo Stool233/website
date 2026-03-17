@@ -1,6 +1,6 @@
 ---
-title: "How Claude Code ToolSearch Works: On-Demand Tool Loading into Context"
-description: "A deep dive into Claude Code's ToolSearch mechanism — how it manages tool discovery and loading through a two-layer catalog-execution architecture."
+title: "How Claude Code Tool Search Works: On-Demand Tool Loading into Context"
+description: "A deep dive into Claude Code's Tool Search mechanism — how it manages tool discovery and loading through a two-layer catalog-execution architecture."
 date: "2026-03-09"
 tags: ["claude-code", "ai-engineering", "tool-use"]
 ---
@@ -17,17 +17,17 @@ This article draws on three categories of sources: community-maintained version 
 
 ```mermaid
 timeline
-    title Evidence of ToolSearch Entering the Default Main Path
-    2.1.30 : ToolSearch description significantly expanded
+    title Evidence of Tool Search Entering the Default Main Path
+    2.1.30 : Tool Search description significantly expanded
            : Emphasis on keyword search and selection modes
     2.1.31 : Begins explicitly referencing available-deferred-tools
-    2.1.68 : ToolSearch absent from main path snapshot
-    2.1.69 : ToolSearch appears in main path snapshot
+    2.1.68 : Tool Search absent from main path snapshot
+    2.1.69 : Tool Search appears in main path snapshot
            : available-deferred-tools appears
            : select:Read,Edit,Grep appears
 ```
 
-So `2.1.69` is better understood as a "default path switchover point": ToolSearch went from being a peripheral capability to a standard part of the session structure. Note that this conclusion is based on comparing community project prompt snapshots — there is no direct feature flag evidence at this time.
+So `2.1.69` is better understood as a "default path switchover point": Tool Search went from being a peripheral capability to a standard part of the session structure. Note that this conclusion is based on comparing community project prompt snapshots — there is no direct feature flag evidence at this time.
 
 ## 2. Core Mechanism: Two-Layer Tool Sets and the Discovery-Execution Pipeline
 
@@ -57,7 +57,7 @@ Note that in each request, the orchestration layer includes an `<available-defer
 sequenceDiagram
     participant O as Orchestration Layer
     participant L as Model
-    participant S as ToolSearch
+    participant S as Tool Search
     participant P as Candidate Tool Pool
 
     Note over O,P: Discovery phase (variable number of rounds)
@@ -94,7 +94,7 @@ From the orchestration layer's point of view, each request is constructed roughl
 
 From available samples, the `loaded tool set` is a cross-turn cumulative session state that exhibits a pattern of "gradual expansion followed by stabilization." No active tool unloading has been observed so far, though whether a longer-term eviction mechanism exists requires more samples to verify.
 
-## 3. ToolSearch Query Semantics
+## 3. Tool Search Query Semantics
 
 Based on prompt descriptions and observed packet capture behavior, `ToolSearch` supports at least three query modes:
 
@@ -127,7 +127,7 @@ Anthropic's November 2025 engineering article, "[Introducing advanced tool use o
 
 **Selection accuracy.** The article also discloses internal test data: after introducing Tool Search, Opus 4's tool selection accuracy improved from 49% to 74%, and Opus 4.5 from 79.5% to 88.1%. With a smaller candidate set, there is less noise and a higher probability of selecting the right tool.
 
-These three gains address three layers of the problem: token cost, available context space, and decision quality. The ToolSearch mechanism responds to all three simultaneously.
+These three gains address three layers of the problem: token cost, available context space, and decision quality. The Tool Search mechanism responds to all three simultaneously.
 
 ## 6. Relationship to the Official Tool Search Tool API
 
