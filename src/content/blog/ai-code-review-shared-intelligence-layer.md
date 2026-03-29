@@ -47,13 +47,15 @@ From what we see in the market and in our own work, AI code review is roughly sp
 
 The first path is **augmenting human review**.
 
-This path is easier to ship. It does not ask AI to make the final judgment. Instead, AI acts more like an intelligent workbench: it reads the diff, generates summaries, highlights potential risks, and helps the reviewer get oriented before writing comments. Many public products still cluster around this path, including [CodeRabbit](https://www.coderabbit.ai/), [Graphite](https://graphite.dev/docs/ai-reviews), and the review workflows Cursor has continued to emphasize after [Graphite joined Cursor](https://cursor.com/blog/graphite). The reason is not complicated. This path has more tolerance for error. Even when the AI output is imperfect, it is still mostly auxiliary information, and the final judgment stays with a human.
+This path is easier to ship. It does not ask AI to make the final judgment. Instead, AI acts more like an intelligent workbench: it reads the diff, generates summaries, highlights potential risks, and helps the reviewer get oriented before writing comments. The reason is not complicated. This path has more tolerance for error. Even when the AI output is imperfect, it is still mostly auxiliary information, and the final judgment stays with a human.
 
 The second path is **letting the AI agent act as the reviewer**.
 
 Here the agent is not just summarizing the diff. It is generating actual review comments. Taken further, it may even attempt fixes and open a follow-up PR or MR.
 
 The upside of this path is obviously larger because it gets closer to automating review itself. But the system requirements are also much higher. Once the comment is directed at a developer, it is no longer just a lightweight summary. It becomes a recommendation that can influence an engineering decision. At that point, the question is no longer "Can the model write comments?" but "What is the model basing those comments on?"
+
+From a product-shape perspective, [CodeRabbit](https://www.coderabbit.ai/), [Graphite](https://graphite.dev/docs/ai-reviews), and the review workflows Cursor has continued to emphasize after [Graphite joined Cursor](https://cursor.com/blog/graphite) are also closer to this path. They are not just producing summaries. They are directly generating review comments. In practice, many products straddle both paths, but their center of gravity is different.
 
 ```mermaid
 graph LR
@@ -122,7 +124,7 @@ Once you look at the problem this way, a lot of things that previously looked li
 
 This is also why cross-repository search, global code linkage, and dependency mapping matter so much. In a small single-repo project, local context may be enough for AI to survive. In a real enterprise environment, codebases are often multi-repo, multi-language, and multi-artifact. Especially in split-repo organizations, the actual blast radius of a change is often outside the current PR entirely, in another service, another repository, or another build artifact. Whoever can supply that context to the agent more reliably has the higher ceiling. Sourcegraph's discussion of [cross-repository code navigation](https://sourcegraph.com/blog/cross-repository-code-navigation) makes the same point from a technical angle: the challenge is not just "searching wider," but knowing precisely what symbol, version, and dependency relationship a piece of code actually refers to.
 
-## Why Code Intelligence Becomes Foundational Infrastructure for AI Code Review
+## Why Code Intelligence Matters
 
 If you keep decomposing the problem, you quickly hit a more concrete question: where does that context actually come from?
 
@@ -132,35 +134,11 @@ The reason is simple. When developers review code, they do not actually just sta
 
 Historically, humans answered those questions using IDEs, code search systems, and documentation. What changed is that we now have a new consumer of the same information: the AI agent. In other words, AI code review did not invent a new demand for Code Intelligence. It turned an existing developer need, code understanding, into a capability the system now has to expose and serve reliably.
 
-That is why we see Code Intelligence not as an optional enhancement for AI code review, but as one of the hardest layers inside the shared intelligence layer.
+That is why we see Code Intelligence not as an optional enhancement for AI code review, but as one of the harder layers inside the shared intelligence layer.
 
-### From LSP to Indexing: Why Real-Time Tools Alone Are Not Enough
+From an implementation perspective, the key is not choosing one magic technology. The key is whether code-understanding capability can be supplied at scale. Real-time semantic systems such as [LSP](https://microsoft.github.io/language-server-protocol/) are already very effective in IDEs. At platform scale, especially across repositories and languages, that often pushes you toward indexed approaches such as [LSIF](https://code.visualstudio.com/blogs/2019/02/19/lsif), [SCIP](https://sourcegraph.com/blog/announcing-scip), or alternative tradeoff points such as GitHub's [Stack Graphs](https://github.blog/2021-12-09-introducing-stack-graphs/).
 
-In the local IDE case, [LSP](https://microsoft.github.io/language-server-protocol/) is already extremely useful. It defines a common protocol so that editors can reuse semantic capabilities from language servers, such as go-to-definition, find references, and hover.
-
-But LSP is naturally better suited to a single developer, a single workspace, and real-time interaction. Its behavior depends on concrete language servers and compiler ecosystems. Once you stretch it to large-scale online code platforms, multi-tenant systems, or cross-repository querying, the costs rise quickly. You need enough language server capacity, and you need a separate operational story for each language.
-
-That is exactly why the industry moved toward indexing formats such as [LSIF](https://code.visualstudio.com/blogs/2019/02/19/lsif) and SCIP. LSIF takes what was previously a real-time language service and turns it into a batch-generated index that can be queried later. For platform-scale workloads, that matters because it changes the problem from "compute on every request" to "compute ahead of time."
-
-But LSIF also comes with trade-offs. Indexes can get large, builds can get slow, and incremental updates can be inefficient, especially in large repositories under continuous change.
-
-### From LSIF to SCIP: Why Index Format Design Affects Product Ceiling
-
-SCIP can be understood as Sourcegraph's attempt to push [LSIF into a more practical, more scalable form](https://sourcegraph.com/blog/announcing-scip). The goal was not just to preserve code navigation features. It was to make code indexes more compact, easier to store and distribute at scale, and easier for other systems to reuse as a data substrate.
-
-From a product perspective, the significance is very direct: if your code intelligence layer depends on an indexing system that is slow to build, weak at incremental updates, and hard to reuse across repositories, then your shared intelligence layer is unlikely to get very far. The expensive part is not just "looking up one definition." The expensive part is continuously updating, linking, and reusing semantic information over time.
-
-We had a similar impression when looking at Alibaba's related work. [Alibaba's code indexing practice for online code review](https://mp.weixin.qq.com/s/7ZFezyneFADZ7_unAZWUEg) was also designed to give the review experience something closer to an IDE, and it invested heavily in index compression and incremental storage strategies, including more stable content-based identifiers instead of opaque IDs so unchanged pieces can be reused more effectively. On the surface, this looks like classic infrastructure work. In reality, it is exactly the sort of work AI code review eventually runs into if it wants rich context without unsustainable cost.
-
-### Stack Graphs Suggest Another Path
-
-There is also another family of approaches worth watching, such as GitHub's [Stack Graphs](https://github.blog/2021-12-09-introducing-stack-graphs/).
-
-The point is not to declare one approach universally better. The interesting part is the trade-off it exposes: instead of depending fully on compiler ecosystems, you can build incrementally maintainable graph structures from syntax analysis plus a DSL. The upside is better file-level incrementality and easier expansion to more languages. The downside is that expressive power and precision have to be managed carefully, and not every complex language feature is easy to model.
-
-For AI code review, that lesson matters. What we need is not always "a perfect reproduction of every semantic capability in a modern IDE." More often, we need an engineering balance across scale, incremental updates, language coverage, and enough precision to support useful reasoning.
-
-Put differently, terms like LSP, LSIF, SCIP, and Stack Graphs may sound like internal details from the code navigation world. In practice, they shape whether the shared intelligence layer can become a durable system at all.
+For AI code review, these are not just internal details from the code navigation world. They will decide whether the shared intelligence layer can operate at reasonable cost over time. Because the expensive part is rarely a single definition lookup. The expensive part is keeping semantic information updated, linked, and reusable across a living codebase.
 
 ## Tools Are Not the Point. The Real Question Is How to Supply Useful Context.
 
@@ -214,15 +192,11 @@ From a product perspective, that looks much more like engineering knowledge infr
 
 ## Questions We Still Do Not Fully Have Answers To
 
-The first is the boundary between static analysis and AI code review.
-
-Our bias is to treat them as complementary rather than competitive. Static analysis is strong at problems with explicit rules and scalable enforcement. AI code review is more useful when the issue depends on context, semantics, and engineering judgment. The combination is probably more interesting than a replacement story.
-
-The second is the risk of circular validation.
+The first is the risk of circular validation.
 
 If code is written by AI, then reviewed by AI, then explained by AI, and the human only rubber-stamps the result, the organization can easily drift into a shallow approval loop. That risk is real and worth designing against.
 
-The third is whether code review will continue to exist in today's form.
+The second is whether code review will continue to exist in today's form.
 
 We do not know. It is entirely possible that more and more "review comments" will be pushed earlier into authoring, pre-merge checks, CI pipelines, and even runtime feedback loops. But even if the specific workflow changes, the need for quality assurance and long-term maintainability does not go away. The label "code review" may change. The underlying problem does not.
 
@@ -248,7 +222,6 @@ That may be the real key to moving AI code review from something that demos well
 - [Sourcegraph: SCIP: a better code indexing format than LSIF](https://sourcegraph.com/blog/announcing-scip)
 - [Language Server Protocol](https://microsoft.github.io/language-server-protocol/)
 - [Language Server Index Format](https://code.visualstudio.com/blogs/2019/02/19/lsif)
-- [Alibaba Code indexing practice for bringing an IDE-like reading experience to code review](https://mp.weixin.qq.com/s/7ZFezyneFADZ7_unAZWUEg)
 - [GitHub: Introducing stack graphs](https://github.blog/2021-12-09-introducing-stack-graphs/)
 - [AACR-Bench paper](https://arxiv.org/abs/2601.19494)
 - [AACR-Bench dataset](https://huggingface.co/datasets/Alibaba-Aone/aacr-bench)
