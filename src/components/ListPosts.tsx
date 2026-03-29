@@ -1,3 +1,5 @@
+import PostTagStrip from "./PostTagStrip";
+
 interface Post {
   id: string;
   slug: string;
@@ -81,16 +83,9 @@ export default function ListPosts({ list, mini = false }: Props) {
                 {post.data.description}
               </p>
             )}
-            <div className="flex items-center gap-3 text-xs text-ink-tertiary dark:text-ink-dark-tertiary">
-              <time className="tabular-nums">{post.data.date}</time>
-              {post.data.tags?.map((tag: string) => (
-                <span
-                  key={tag}
-                  className="px-2 py-0.5 rounded-full bg-surface-tertiary dark:bg-surface-dark-tertiary text-ink-secondary dark:text-ink-dark-secondary font-medium"
-                >
-                  {tag}
-                </span>
-              ))}
+            <div className="flex min-w-0 items-center gap-2 text-xs text-ink-tertiary dark:text-ink-dark-tertiary">
+              <time className="tabular-nums flex-none">{post.data.date}</time>
+              <PostTagStrip tags={post.data.tags} maxVisible={2} />
             </div>
           </a>
         </li>

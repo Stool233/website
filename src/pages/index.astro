@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import PostTagStrip from "../components/PostTagStrip";
 import siteConfig from "../site-config";
 import { getPosts } from "../utils/posts";
 
@@ -79,15 +80,11 @@ const recentPosts = posts.slice(0, 4);
           ]}
         >
           <div>
-            <div class="flex items-center gap-2 mb-3">
-              <time class="text-xs text-ink-tertiary dark:text-ink-dark-tertiary tabular-nums" datetime={new Date(post.data.date).toISOString()}>
+            <div class="flex min-w-0 items-center gap-2 mb-3 text-xs text-ink-tertiary dark:text-ink-dark-tertiary">
+              <time class="tabular-nums flex-none" datetime={new Date(post.data.date).toISOString()}>
                 {post.data.date}
               </time>
-              {post.data.tags?.map((tag: string) => (
-                <span class="px-2 py-0.5 rounded-full bg-surface-tertiary dark:bg-surface-dark-tertiary text-ink-secondary dark:text-ink-dark-secondary text-xs font-medium">
-                  {tag}
-                </span>
-              ))}
+              <PostTagStrip tags={post.data.tags} maxVisible={2} />
             </div>
             <h3 class="text-lg font-semibold text-ink dark:text-ink-dark group-hover:text-ink dark:group-hover:text-ink-dark transition-colors leading-snug">
               {post.data.title}
