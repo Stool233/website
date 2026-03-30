@@ -225,4 +225,5 @@ That may be the real key to moving AI code review from something that demos well
 - [AACR-Bench paper](https://arxiv.org/abs/2601.19494)
 - [AACR-Bench dataset](https://huggingface.co/datasets/Alibaba-Aone/aacr-bench)
 - [AACR-Bench GitHub repository](https://github.com/alibaba/aacr-bench)
+- [Benchmarking and Studying the LLM-based Code Review](https://arxiv.org/abs/2509.01494)
 - Public datasets: [Code-Review-Assistant](https://huggingface.co/datasets/alenphilip/Code-Review-Assistant), [Code-Review-Assistant-Eval](https://huggingface.co/datasets/alenphilip/Code-Review-Assistant-Eval), [Nutanix codereview-dataset](https://huggingface.co/datasets/Nutanix/codereview-dataset), [SWE-CARE](https://huggingface.co/datasets/inclusionAI/SWE-CARE), [CRAVE](https://huggingface.co/datasets/TuringEnterprises/CRAVE)
