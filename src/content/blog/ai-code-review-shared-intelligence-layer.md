@@ -5,7 +5,7 @@ date: "2026-03-29"
 tags: ["ai-code-review", "code-intelligence", "developer-tools"]
 ---
 
-Recently, we ran an internal AI code review pilot across hundreds of repositories. The pilot itself was built around agentic coding tools such as [Claude Code](https://docs.anthropic.com/en/docs/claude-code/overview). If you want to bring this kind of agent into real engineering workflows, permission boundaries, tool use, and secure deployment quickly become first-order concerns of their own, as Anthropic's [secure deployment guide](https://platform.claude.com/docs/en/agent-sdk/secure-deployment) makes clear.
+Recently, we ran an internal AI code review pilot across hundreds of repositories. The pilot itself was built around agentic coding tools such as [Claude Code](https://docs.anthropic.com/en/docs/claude-code/overview).
 
 At the beginning, the most natural question was straightforward: can AI directly participate in code review, or even replace part of a human reviewer's work?
 
@@ -213,7 +213,6 @@ That may be the real key to moving AI code review from something that demos well
 ## References
 
 - [Anthropic documentation: Claude Code Overview](https://docs.anthropic.com/en/docs/claude-code/overview)
-- [Anthropic documentation: Securely deploying AI agents](https://platform.claude.com/docs/en/agent-sdk/secure-deployment)
 - [CodeRabbit](https://www.coderabbit.ai/)
 - [Graphite AI Reviews](https://graphite.dev/docs/ai-reviews)
 - [Cursor: Graphite joins Cursor](https://cursor.com/blog/graphite)
