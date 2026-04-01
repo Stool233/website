@@ -1,5 +1,6 @@
 ---
-title: "The Real Bottleneck in AI Code Review: The Shared Intelligence Layer Between Developers and Agents"
+title: "The Real Bottleneck in AI Code Review"
+subtitle: "The Shared Intelligence Layer Between Developers and Agents"
 description: "Why AI code review succeeds or fails less on comment generation and more on context supply, trust, and the shared intelligence layer between developers and agents."
 date: "2026-03-29"
 tags: ["ai-code-review", "code-intelligence", "developer-tools"]
