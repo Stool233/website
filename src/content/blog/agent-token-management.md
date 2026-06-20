@@ -362,6 +362,7 @@ This may be one of the biggest differences between agent engineering and ordinar
 
 ### Projects and Source Code
 
+- [Evot GitHub](https://github.com/evotai/evot): source reference for the Evot runtime, tool-output handling, compaction, and prompt-cache mechanisms discussed in this article.
 - [Headroom GitHub](https://github.com/chopratejas/headroom): a general token compression layer with SDK, proxy, MCP, CCR, ContentRouter, SmartCrusher, and related mechanisms.
 - [Gemini CLI GitHub](https://github.com/google-gemini/gemini-cli): Google's open-source terminal AI agent.
 - [Claude Code Docs: Overview](https://code.claude.com/docs/en/overview): official Claude Code overview covering terminal, IDE, desktop, web, tool, MCP, and multi-agent capabilities.
