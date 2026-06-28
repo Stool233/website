@@ -4,6 +4,9 @@ subtitle: "An AI Misdiagnosis and Engineering Fundamentals"
 description: "A CI/CD infrastructure case study on why raw PE .text changes can be caused by relocation-covered address values rather than code logic changes, and why AI analysis still needs engineering validation."
 date: "2026-06-29"
 tags: ["ci-cd", "binary-analysis", "ai-engineering", "pe"]
+image:
+  src: "/blog/pe-text-ai-misdiagnosis-og.jpg"
+  alt: "AI misdiagnosis corrected by relocation-aware PE binary forensics"
 ---
 
 We recently ran into a representative case while maintaining CI/CD infrastructure.
