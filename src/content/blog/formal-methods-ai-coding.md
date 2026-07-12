@@ -10,7 +10,7 @@ This essay starts from a personal experience: I once worked through TLA+ in a fa
 
 ## Introduction: How Studying TLA+ Changed the Way I Understand Complex Systems
 
-I came to TLA+ roughly like this — first reading through Lamport's *Specifying Systems* and the Hyperbook, then following Ron Pressler's [pron.github.io/tlaplus](https://pron.github.io/tlaplus) to pick back up the mathematical toolkit: set theory, predicate logic, temporal logic, state machines / transition systems. A few public repos came out of that learning: [tla-plus-learn](https://github.com/Stool233/tla-plus-learn) holds notes and exercises; [modelling-message-passing](https://github.com/Stool233/modelling-message-passing) models "messages can be lost, duplicated, reordered" as a state machine you can run a model checker against; [modelling-bakery](https://github.com/Stool233/modelling-bakery) is a personal model of Lamport's bakery algorithm.
+I came to TLA+ roughly like this — first reading through Lamport's *Specifying Systems* and the Hyperbook, then following Ron Pressler's [pron.github.io/tlaplus](https://pron.github.io/tlaplus) to pick back up the mathematical toolkit: set theory, predicate logic, temporal logic, state machines / transition systems. A few public repos came out of that learning: [tla-plus-learn](https://github.com/Stool233/tla-plus-learn) holds notes and exercises.
 
 I'm not doing formal-methods research. I just picked these tools up as an ordinary engineer trying to learn a language for thinking about systems. The unintended discovery: after that, the way I look at distributed and concurrent systems changed.
 
