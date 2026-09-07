@@ -1,95 +1,36 @@
 import PostTagStrip from "./PostTagStrip";
+import PinnedBadge from "./PinnedBadge";
+import type { PostSummary } from "../utils/blog";
 
-interface Post {
-  id: string;
-  slug: string;
-  data: Record<string, any>;
-  collection: string;
-}
-
-interface Props {
-  list: Post[];
-  mini?: boolean;
-}
-
-function getYear(date: string | Date) {
-  return new Date(date).getFullYear();
-}
-
-function isSameYear(a: string | Date | undefined, b: string | Date | undefined) {
-  return a && b && getYear(a) === getYear(b);
-}
-
-function getHref(post: Post) {
-  if (post.data.redirect) return post.data.redirect;
-  return `/${post.collection}/${post.id}`;
-}
-
-function getTarget(post: Post) {
-  return post.data.redirect ? "_blank" : "_self";
-}
-
-export default function ListPosts({ list, mini = false }: Props) {
-  if (!list || list.length === 0) {
-    return <div className="py-6 text-ink-tertiary dark:text-ink-dark-tertiary text-sm">nothing here yet.</div>;
-  }
-
-  if (mini) {
-    return (
-      <ul className="list-none p-0 space-y-1">
-        {list.map((post) => (
-          <li key={post.data.title}>
-            <a
-              href={getHref(post)}
-              target={getTarget(post)}
-              className="group flex items-baseline gap-4 py-2.5 px-3 -mx-3 rounded-lg hover:bg-surface-secondary dark:hover:bg-surface-dark-secondary transition-all duration-200"
-            >
-              <time className="text-xs text-ink-tertiary dark:text-ink-dark-tertiary tabular-nums flex-none w-24">
-                {post.data.date}
-              </time>
-              <span className="text-sm font-medium text-ink dark:text-ink-dark group-hover:text-ink dark:group-hover:text-ink-dark transition-colors truncate">
-                {post.data.title}
-              </span>
-            </a>
-          </li>
-        ))}
-      </ul>
-    );
-  }
-
+export default function ListPosts({ list, groupByYear = true }: { list: PostSummary[]; groupByYear?: boolean }) {
   return (
     <ul className="list-none p-0 space-y-3">
-      {list.map((post, index) => (
-        <li key={post.data.title}>
-          {/* Year separator */}
-          {!isSameYear(post.data.date, list[index - 1]?.data.date) && (
-            <div className="select-none relative h-16 pointer-events-none">
-              <span className="text-6xl xl:text-7xl font-neucha text-ink/[0.06] dark:text-ink-dark/[0.06] absolute -left-2 xl:-left-16 -top-1">
-                {getYear(post.data.date)}
-              </span>
-            </div>
-          )}
-
-          <a
-            href={getHref(post)}
-            target={getTarget(post)}
-            className="group block p-5 -mx-2 rounded-xl border border-transparent hover:border-slate-200/80 dark:hover:border-slate-700/50 hover:bg-surface-secondary/50 dark:hover:bg-surface-dark-secondary/50 transition-all duration-300 hover:shadow-sm hover:-translate-y-0.5"
-          >
-            <h3 className="text-xl font-semibold text-ink dark:text-ink-dark group-hover:text-ink dark:group-hover:text-ink-dark transition-colors mb-2 leading-snug">
-              {post.data.title}
-            </h3>
-            {post.data.description && (
-              <p className="text-sm text-ink-secondary dark:text-ink-dark-secondary mb-3 line-clamp-2">
-                {post.data.description}
-              </p>
+      {list.map((post, index) => {
+        const year = new Date(post.data.date).getFullYear();
+        const previousYear = index ? new Date(list[index - 1].data.date).getFullYear() : undefined;
+        return (
+          <li key={post.id}>
+            {groupByYear && year !== previousYear && (
+              <h3 className="pt-6 pb-3 text-sm font-semibold text-ink-tertiary dark:text-ink-dark-tertiary">{year}</h3>
             )}
-            <div className="flex min-w-0 items-center gap-2 text-xs text-ink-tertiary dark:text-ink-dark-tertiary">
-              <time className="tabular-nums flex-none">{post.data.date}</time>
-              <PostTagStrip tags={post.data.tags} maxVisible={2} />
-            </div>
-          </a>
-        </li>
-      ))}
+            <article className={`rounded-xl border p-5 transition-colors ${post.data.pinned
+              ? "border-accent/20 bg-accent/5"
+              : "border-slate-200/70 dark:border-slate-700/50 hover:bg-surface-secondary/50 dark:hover:bg-surface-dark-secondary/50"}`}>
+              <div className="mb-3 flex flex-wrap items-center gap-3 text-xs text-ink-tertiary dark:text-ink-dark-tertiary">
+                <time dateTime={new Date(post.data.date).toISOString()}>{post.data.date}</time>
+                {post.data.pinned && <PinnedBadge />}
+              </div>
+              <h3 className="mb-2 text-xl font-semibold leading-snug text-ink dark:text-ink-dark">
+                <a href={`/blog/${post.id}/`} className="hover:underline underline-offset-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent">
+                  {post.data.title}
+                </a>
+              </h3>
+              {post.data.description && <p className="mb-4 text-sm leading-relaxed text-ink-secondary dark:text-ink-dark-secondary line-clamp-2">{post.data.description}</p>}
+              <PostTagStrip tags={post.data.tags} />
+            </article>
+          </li>
+        );
+      })}
     </ul>
   );
 }

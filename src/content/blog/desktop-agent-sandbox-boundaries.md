@@ -4,7 +4,7 @@ seoTitle: "Sandbox Boundaries for Desktop Agents: Lessons from an Internal Syste
 subtitle: "Lessons from an Internal System Call"
 description: "How desktop agents implement sandboxing, how enterprises can set practical boundaries for non-technical workflows, and where FDEs add value."
 date: "2026-08-07"
-tags: ["desktop-agents", "agent-sandbox", "security", "enterprise-ai"]
+tags: ["ai-infrastructure"]
 ---
 
 Recently, we started introducing desktop agents such as Codex to colleagues in HR, administration, finance, and other non-technical business functions.

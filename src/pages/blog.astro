@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import ListPosts from "../components/ListPosts";
+import BlogExplorer from "../components/BlogExplorer";
+import { summarizePost } from "../utils/blog";
 import { getPosts } from "../utils/posts";
 
 export const prerender = true;
@@ -9,6 +10,7 @@ const posts = await getPosts();
 ---
 
 <BaseLayout title="Blog" description="Blog posts">
-  <h1 class="text-title mb-8">Blog</h1>
-  <ListPosts list={posts as any[]} client:load />
+  <h1 class="text-title mb-3">Blog</h1>
+  <p class="mb-8 text-ink-secondary dark:text-ink-dark-secondary">Notes on agents, infrastructure, and building better software.</p>
+  <BlogExplorer posts={posts.map(summarizePost)} client:load />
 </BaseLayout>

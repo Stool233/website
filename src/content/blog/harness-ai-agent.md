@@ -2,7 +2,7 @@
 title: "Harnessing AI Agents: The Design and Evolution of Harness Engineering"
 description: "A comparative analysis of seven AI Agent projects, examining the Harness design space across loops, tools, sub-agents, context management, permissions, and enterprise adoption."
 date: "2026-04-12"
-tags: ["ai-agents", "agent-harness", "developer-tools", "mcp"]
+tags: ["agent-engineering"]
 ---
 
 ## 1. Introduction: Starting from Source Code Leaks

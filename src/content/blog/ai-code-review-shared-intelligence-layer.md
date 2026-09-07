@@ -3,7 +3,7 @@ title: "The Real Bottleneck in AI Code Review"
 subtitle: "The Shared Intelligence Layer Between Developers and Agents"
 description: "Why AI code review succeeds or fails less on comment generation and more on context supply, trust, and the shared intelligence layer between developers and agents."
 date: "2026-03-29"
-tags: ["ai-code-review", "code-intelligence", "developer-tools"]
+tags: ["software-engineering", "ai-coding"]
 ---
 
 Recently, we ran an internal AI code review pilot across hundreds of repositories. The pilot itself was built around agentic coding tools such as [Claude Code](https://docs.anthropic.com/en/docs/claude-code/overview).

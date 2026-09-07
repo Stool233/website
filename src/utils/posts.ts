@@ -1,15 +1,8 @@
 import { getCollection } from "astro:content";
+import { sortByDate } from "./blog";
+import type { BlogTopic } from "../blog-config";
 
-type CollectionPost = {
-  data: Record<string, any>;
-  [key: string]: any;
-};
-
-export function sortPostsByDate(a: CollectionPost, b: CollectionPost) {
-  return new Date(b.data.date).getTime() - new Date(a.data.date).getTime();
-}
-
-export async function getPosts(tag?: string) {
+export async function getPosts(tag?: BlogTopic) {
   const isProd = import.meta.env.PROD;
   return (
     await getCollection("blog", (post) => {
@@ -17,5 +10,5 @@ export async function getPosts(tag?: string) {
       if (tag) return post.data.tags?.includes(tag);
       return true;
     })
-  ).sort(sortPostsByDate);
+  ).sort(sortByDate);
 }

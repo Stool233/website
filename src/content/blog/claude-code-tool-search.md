@@ -2,7 +2,7 @@
 title: "How Claude Code Tool Search Works: On-Demand Tool Loading into Context"
 description: "A deep dive into Claude Code's Tool Search mechanism — how it manages tool discovery and loading through a two-layer catalog-execution architecture."
 date: "2026-03-09"
-tags: ["claude-code", "ai-engineering", "tool-use"]
+tags: ["agent-engineering"]
 ---
 
 ## Introduction

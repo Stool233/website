@@ -2,7 +2,7 @@
 title: "AI Agent Sandbox: A Comprehensive Guide from Architecture Patterns to Enterprise Practice"
 description: "A systematic overview of AI Agent Sandbox — covering architecture patterns, isolation technologies, industry solutions, and our enterprise deployment experience."
 date: "2026-03-15"
-tags: ["agent-sandbox", "ai-infrastructure", "security", "kubernetes"]
+tags: ["ai-infrastructure"]
 ---
 
 ## 1. Introduction

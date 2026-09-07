@@ -3,7 +3,8 @@ title: "Building a Lab for the Model"
 subtitle: "How an Agent Harness Supported a Top-Five Benchmark Run"
 description: "A performance-optimization case study showing how prompt contracts, multi-agent research, trace tooling, experimental memory, and validation turn an agent harness into a working environment for capable models."
 date: "2026-07-12"
-tags: ["ai-agents", "agent-harness", "performance-optimization", "ai-infrastructure"]
+tags: ["agent-engineering", "ai-coding"]
+pinned: true
 ---
 
 We recently asked Codex to work on a long-running performance optimization task based on Anthropic's [Original Performance Take-Home](https://github.com/anthropics/original_performance_takehome). Starting from the repository's baseline implementation, it iteratively searched for programs with lower cycle counts.

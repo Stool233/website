@@ -3,7 +3,7 @@ title: "The Next Layer of Agent Observability"
 subtitle: "From LLM Traces to System Facts and Governance"
 description: "Why agent observability needs to connect semantic traces, system-level facts, agent gateways, OpenTelemetry, evaluation, and policy into one governable trust chain."
 date: "2026-05-24"
-tags: ["agent-observability", "ai-infrastructure", "opentelemetry", "agent-gateway"]
+tags: ["ai-infrastructure"]
 ---
 
 While researching observability for AI agents, we started with a simple question: if we already have LLM tracing, prompt logging, and evaluation platforms, why do we need a separate discussion about agent observability?

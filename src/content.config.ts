@@ -1,5 +1,6 @@
 import { defineCollection, z } from "astro:content";
 import { glob } from "astro/loaders";
+import { topicIds } from "./blog-config";
 
 const blog = defineCollection({
   loader: glob({ base: "./src/content/blog", pattern: "**/*.{md,mdx}" }),
@@ -19,7 +20,9 @@ const blog = defineCollection({
         })
       ),
     draft: z.boolean().optional().default(false),
-    tags: z.array(z.string()).optional(),
+    tags: z.array(z.enum(topicIds)).min(1).max(3)
+      .refine((tags) => new Set(tags).size === tags.length, "Use each topic only once"),
+    pinned: z.boolean().default(false),
     image: z
       .object({
         src: z.string(),

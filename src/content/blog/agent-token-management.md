@@ -3,7 +3,7 @@ title: "Tokens Are Not Just a Cost Problem"
 subtitle: "How AI Agents Schedule Context Resources"
 description: "Token management in AI agents is not a single compression trick. It is a system design problem around admission control, compression, retrieval, cache protection, output shaping, and overflow recovery."
 date: "2026-06-21"
-tags: ["ai-agents", "context-engineering", "token-management", "ai-infrastructure"]
+tags: ["agent-engineering"]
 ---
 
 ## Introduction: Token Management Is Resource Scheduling

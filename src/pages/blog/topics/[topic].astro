@@ -1,0 +1,23 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import BlogExplorer from "../../../components/BlogExplorer";
+import { blogTopics, topicIds } from "../../../blog-config";
+import { getPosts } from "../../../utils/posts";
+import { summarizePost } from "../../../utils/blog";
+
+export const prerender = true;
+export function getStaticPaths() {
+  return topicIds.map((topic) => ({ params: { topic }, props: { topic } }));
+}
+
+const { topic } = Astro.props;
+const details = blogTopics[topic];
+const posts = await getPosts();
+---
+
+<BaseLayout title={`${details.label} | Blog`} description={details.description}>
+  <a href="/blog" class="mb-5 inline-block text-sm text-ink-secondary dark:text-ink-dark-secondary hover:underline">&larr; All writing</a>
+  <h1 class="text-title mb-3">{details.label}</h1>
+  <p class="mb-8 text-ink-secondary dark:text-ink-dark-secondary">{details.description}</p>
+  <BlogExplorer posts={posts.map(summarizePost)} topic={topic} client:load />
+</BaseLayout>

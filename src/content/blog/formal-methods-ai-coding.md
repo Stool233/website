@@ -3,7 +3,7 @@ title: "Formal Methods × AI Coding"
 subtitle: "Beyond Code-Level Proofs, How Complex Systems Get Constrained"
 description: "Why AI coding's prompt-level specs organize work but do not verify complex system design, and where system-level formal methods like TLA+, P, and runtime conformance checking fit."
 date: "2026-05-03"
-tags: ["formal-methods", "ai-coding", "tla-plus", "system-design"]
+tags: ["software-engineering", "ai-coding", "formal-methods"]
 ---
 
 This essay starts from a personal experience: I once worked through TLA+ in a fairly serious way, and through it picked up the mathematical foundations behind formal methods — set theory, predicate logic, temporal logic, state machines / transition systems. In my own experience, those tools gave me a deeper jump in understanding complex systems — distributed systems in particular — than reading DDIA did. In the AI Coding era, "spec" has become a high-frequency word again: Spec Kit, Kiro, AGENTS.md, SDD all ask you to write requirements, design, and tasks first. But the primary consumer of these specs is an LLM, not a verifier or a model checker — they organize work, compress context, and constrain generation, but they don't verify whether the system design itself holds together. The question this essay is concerned with: as AI starts to participate in software engineering and system design, can formal methods fill the missing layer between prompt-level specs and the actual semantics of complex systems?
