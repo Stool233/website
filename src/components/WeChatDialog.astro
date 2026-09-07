@@ -1,0 +1,85 @@
+---
+import siteConfig from "../site-config";
+---
+
+<dialog
+  id="wechat-dialog"
+  aria-labelledby="wechat-dialog-title"
+  aria-describedby="wechat-dialog-description"
+  class="m-auto overflow-y-auto overscroll-contain rounded-2xl border border-[#e3e3e0] dark:border-[#2f2f2f] bg-surface dark:bg-surface-dark-secondary p-0 text-ink dark:text-ink-dark shadow-xl"
+>
+  <div class="p-5">
+    <div class="flex items-center justify-between gap-4 mb-1">
+      <h2 id="wechat-dialog-title" class="text-lg font-semibold">WeChat</h2>
+      <form method="dialog">
+        <button
+          type="submit"
+          autofocus
+          aria-label="Close WeChat QR code"
+          class="flex h-11 w-11 items-center justify-center rounded-lg text-ink-secondary dark:text-ink-dark-secondary hover:bg-surface-tertiary dark:hover:bg-surface-dark-tertiary transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent"
+        >
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
+            <path d="m6 6 12 12M18 6 6 18" stroke-linecap="round" />
+          </svg>
+        </button>
+      </form>
+    </div>
+    <p id="wechat-dialog-description" class="text-sm text-ink-secondary dark:text-ink-dark-secondary">
+      Scan in WeChat to add me, or save the image to scan from your phone's album.
+    </p>
+    <img
+      src={siteConfig.wechatQrCode}
+      alt="Weng Jialin's WeChat contact QR code"
+      width="888"
+      height="1131"
+      loading="lazy"
+      decoding="async"
+      class="mx-auto my-4 max-h-[55dvh] w-auto max-w-full rounded-xl"
+    />
+    <a
+      href={siteConfig.wechatQrCode}
+      download="weng-jialin-wechat.jpg"
+      class="flex min-h-11 items-center justify-center rounded-xl bg-surface-secondary dark:bg-surface-dark-tertiary px-4 py-2.5 text-sm font-medium hover:bg-surface-tertiary dark:hover:bg-surface-dark transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+    >
+      Save QR code
+    </a>
+  </div>
+</dialog>
+
+<style>
+  dialog {
+    width: min(24rem, calc(100vw - 2rem));
+    max-height: calc(100dvh - 2rem);
+  }
+
+  dialog::backdrop {
+    background: rgb(0 0 0 / 0.45);
+    backdrop-filter: blur(4px);
+  }
+
+  :global(html:has(#wechat-dialog[open])) {
+    overflow: hidden;
+  }
+</style>
+
+<script>
+  // Delegate clicks so links keep working after Astro page transitions.
+  document.addEventListener("click", (event) => {
+    if (!(event.target instanceof Element)) return;
+
+    const dialog = document.querySelector<HTMLDialogElement>("#wechat-dialog");
+    if (!dialog) return;
+
+    const trigger = event.target.closest<HTMLAnchorElement>("[data-wechat-trigger]");
+    if (trigger) {
+      if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      if (typeof dialog.showModal !== "function") return;
+
+      event.preventDefault();
+      trigger.focus({ preventScroll: true });
+      dialog.showModal();
+    } else if (event.target === dialog) {
+      dialog.close();
+    }
+  });
+</script>

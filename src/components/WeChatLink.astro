@@ -1,0 +1,38 @@
+---
+import siteConfig from "../site-config";
+
+interface Props {
+  variant?: "card" | "footer";
+}
+
+const { variant = "footer" } = Astro.props;
+const isCard = variant === "card";
+---
+
+<a
+  href={siteConfig.wechatQrCode}
+  data-wechat-trigger
+  data-astro-reload
+  aria-label="WeChat QR code"
+  aria-haspopup="dialog"
+  aria-controls="wechat-dialog"
+  class:list={[
+    "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent",
+    isCard
+      ? "flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-surface-tertiary dark:hover:bg-surface-dark-tertiary transition-all duration-200 group"
+      : "text-sm text-ink-tertiary dark:text-ink-dark-tertiary hover:text-ink dark:hover:text-ink-dark transition-colors",
+  ]}
+>
+  {isCard && (
+    <svg class="w-5 h-5 text-ink-tertiary dark:text-ink-dark-tertiary group-hover:text-ink dark:group-hover:text-ink-dark transition-colors" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M14.8 7.3C14 4.8 11.3 3 8.2 3 4.2 3 1 5.8 1 9.2c0 1.8.9 3.4 2.4 4.6L2.6 17l3.5-1.7c.7.2 1.4.3 2.1.3M23 13.7c0-3.1-3-5.6-6.6-5.6s-6.6 2.5-6.6 5.6 3 5.6 6.6 5.6c.7 0 1.4-.1 2.1-.3l3 1.5-.7-2.7c1.4-1 2.2-2.5 2.2-4.1Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+      <circle cx="5.5" cy="8" r="0.9" />
+      <circle cx="10.5" cy="8" r="0.9" />
+      <circle cx="14" cy="12.5" r="0.8" />
+      <circle cx="18.5" cy="12.5" r="0.8" />
+    </svg>
+  )}
+  <span class:list={[isCard && "text-sm font-medium text-ink-secondary dark:text-ink-dark-secondary group-hover:text-ink dark:group-hover:text-ink-dark transition-colors"]}>
+    {isCard ? "WeChat" : "wechat"}
+  </span>
+</a>

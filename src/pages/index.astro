@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import PostTagStrip from "../components/PostTagStrip";
+import WeChatLink from "../components/WeChatLink.astro";
 import siteConfig from "../site-config";
 import { getPosts } from "../utils/posts";
 
@@ -43,6 +44,19 @@ const recentPosts = posts.slice(0, 4);
           </svg>
           <span class="text-sm font-medium text-ink-secondary dark:text-ink-dark-secondary group-hover:text-ink dark:group-hover:text-ink-dark transition-colors">GitHub</span>
         </a>
+        <a
+          href="https://x.com/wengjialin37"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="X (Twitter) profile"
+          class="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-surface-tertiary dark:hover:bg-surface-dark-tertiary transition-all duration-200 group"
+        >
+          <svg class="w-5 h-5 text-ink-tertiary dark:text-ink-dark-tertiary group-hover:text-ink dark:group-hover:text-ink-dark transition-colors" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.64 7.584H.47l8.6-9.835L0 1.154h7.594l5.243 6.932zM17.61 20.644h2.039L6.486 3.24H4.298z" />
+          </svg>
+          <span class="text-sm font-medium text-ink-secondary dark:text-ink-dark-secondary group-hover:text-ink dark:group-hover:text-ink-dark transition-colors">X (Twitter)</span>
+        </a>
+        <WeChatLink variant="card" />
         <a
           href="mailto:christry.stool@gmail.com"
           aria-label="Send email"
