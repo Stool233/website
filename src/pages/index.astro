@@ -115,6 +115,16 @@ const featuredPosts = [...posts].sort(sortForDisplay).slice(0, 4);
       );
     })}
 
+    <!-- Reading shelf -->
+    <a href="/reading" class="bento-card md:col-span-2 flex items-center justify-between gap-5 group hover:-translate-y-0.5">
+      <div>
+        <p class="mb-2 text-xs font-medium uppercase tracking-wider text-ink-tertiary dark:text-ink-dark-secondary">Reading shelf</p>
+        <h2 class="text-lg font-semibold text-ink dark:text-ink-dark">Good reads, with a personal note.</h2>
+        <p class="mt-2 text-sm text-ink-secondary dark:text-ink-dark-secondary">Articles I've saved from around the web.</p>
+      </div>
+      <span class="text-xl text-ink-tertiary dark:text-ink-dark-secondary group-hover:text-ink dark:group-hover:text-ink-dark" aria-hidden="true">&rarr;</span>
+    </a>
+
     <!-- View All Posts Card -->
     <a
       href="/blog"

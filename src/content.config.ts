@@ -1,6 +1,7 @@
 import { defineCollection, z } from "astro:content";
-import { glob } from "astro/loaders";
+import { file, glob } from "astro/loaders";
 import { topicIds } from "./blog-config";
+import { isArticleUrl, isReadingDate } from "./utils/reading";
 
 const blog = defineCollection({
   loader: glob({ base: "./src/content/blog", pattern: "**/*.{md,mdx}" }),
@@ -32,4 +33,18 @@ const blog = defineCollection({
   }),
 });
 
-export const collections = { blog };
+const reading = defineCollection({
+  loader: file("src/content/reading.json"),
+  schema: z.object({
+    title: z.string().trim().min(1),
+    url: z.string().url().refine(isArticleUrl, "Use an HTTP or HTTPS article URL without credentials"),
+    author: z.string().trim().min(1).optional(),
+    savedAt: z.string().refine(isReadingDate, "Use a valid YYYY-MM-DD date"),
+    note: z.string().trim().min(1).max(1000),
+    tags: z.array(z.enum(topicIds)).max(3).default([])
+      .refine((tags) => new Set(tags).size === tags.length, "Use each topic only once"),
+    draft: z.boolean().default(false),
+  }),
+});
+
+export const collections = { blog, reading };

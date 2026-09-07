@@ -6,6 +6,7 @@ export const siteConfig = {
   wechatQrCode: "/wechat-qr.jpg",
   headerNavLinks: [
     { text: "blog", href: "/blog" },
+    { text: "reading", href: "/reading" },
     { text: "about", href: "/about" },
   ],
   footerNavLinks: [

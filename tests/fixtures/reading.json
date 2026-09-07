@@ -1,0 +1,28 @@
+[
+  {
+    "id": "example-agent-design",
+    "title": "Example: an article about designing better agents",
+    "url": "https://example.com/agent-design",
+    "author": "Example author",
+    "savedAt": "2026-09-08",
+    "note": "Layout sample only. Your recommendation goes here: the idea that stood out, why it matters, and how it connects to your own work.",
+    "tags": ["agent-engineering", "ai-coding"]
+  },
+  {
+    "id": "example-system-correctness",
+    "title": "Example: a different way to reason about system correctness",
+    "url": "https://www.example.org/system-correctness",
+    "savedAt": "2026-09-06",
+    "note": "Layout sample only. A short personal note gives the reader a reason to open the original article, beyond its title.",
+    "tags": ["formal-methods", "software-engineering"]
+  },
+  {
+    "id": "example-infrastructure",
+    "title": "Example: lessons from building AI infrastructure",
+    "url": "https://example.net/infrastructure",
+    "author": "Another example author",
+    "savedAt": "2026-08-28",
+    "note": "Layout sample only. The original stays on the author's site; this shelf keeps the link and your recommendation together.",
+    "tags": ["ai-infrastructure"]
+  }
+]

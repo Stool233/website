@@ -1,0 +1,73 @@
+[
+  {
+    "id": "illegal-vs-unwanted-states",
+    "title": "Illegal vs Unwanted States",
+    "url": "https://buttondown.com/hillelwayne/archive/illegal-vs-unwanted-states/",
+    "author": "Hillel Wayne",
+    "savedAt": "2026-04-28",
+    "note": "A useful distinction for system design: some states must never occur, while others need to be visible and eventually resolved. It connects everyday product decisions to safety and liveness without treating every awkward intermediate state as a modeling mistake.",
+    "tags": [
+      "software-engineering",
+      "formal-methods"
+    ]
+  },
+  {
+    "id": "ci-at-scale-lean-green-and-fast",
+    "title": "CI at Scale: Lean, Green, and Fast",
+    "url": "https://arxiv.org/abs/2501.03440",
+    "author": "Dhruva Juloori, Zhongpeng Lin, Matthew Williams, Eddy Shin, Sonal Mahajan",
+    "savedAt": "2025-01-07",
+    "note": "Worth reading for its view of CI scheduling as a decision problem: prioritize the set of build results needed to safely merge a change, rather than just the most likely path. The SubmitQueue case makes the trade-off between speculative work, latency, and correctness concrete.",
+    "tags": [
+      "software-engineering"
+    ]
+  },
+  {
+    "id": "agent-observability-needs-feedback-to-power-learning",
+    "title": "Agent Observability Needs Feedback to Power Learning",
+    "url": "https://www.langchain.com/blog/agent-observability-needs-feedback-to-power-learning",
+    "author": "Harrison Chase",
+    "savedAt": "2026-05-05",
+    "note": "A clear account of why traces need quality signals. Connecting user feedback and evaluations to runs turns observability into a way to improve the model, harness, and context—useful when designing an agent platform beyond logs and dashboards.",
+    "tags": [
+      "ai-infrastructure",
+      "agent-engineering"
+    ]
+  },
+  {
+    "id": "the-software-industry-annealing-but-wrong",
+    "title": "The software industry: annealing, but wrong",
+    "url": "https://apenwarr.ca/log/20260531",
+    "author": "apenwarr",
+    "savedAt": "2026-05-31",
+    "note": "A useful challenge to treating small PRs as a universal rule. As AI makes large changes cheaper to generate, the harder engineering problem becomes reviewing, validating, and rejecting experiments quickly enough to let good designs emerge.",
+    "tags": [
+      "software-engineering",
+      "ai-coding"
+    ]
+  },
+  {
+    "id": "formal-methods-and-the-future-of-programming",
+    "title": "Formal methods and the future of programming",
+    "url": "https://blog.janestreet.com/formal-methods-at-jane-street-index/",
+    "author": "Yaron Minsky",
+    "savedAt": "2026-06-07",
+    "note": "Explains why agentic coding changes the economics of formal methods: proof tools can become easier to use just as generated code makes verification more urgent. Especially relevant to treating specifications and proofs as feedback infrastructure for coding agents.",
+    "tags": [
+      "formal-methods",
+      "ai-coding"
+    ]
+  },
+  {
+    "id": "specula-scaling-formal-specifications",
+    "title": "Specula: Scaling formal specifications for autonomous model checking of system code",
+    "url": "https://muratbuffalo.blogspot.com/2026/08/specula-scaling-formal-specifications.html",
+    "author": "Murat Demirbas",
+    "savedAt": "2026-08-12",
+    "note": "A valuable account of both the power and the limits of automated formal methods. The trace, model-checking, and reproduction loops are worth studying, while the critique keeps a crucial distinction in view: finding reproducible bugs does not establish that inferred specifications capture the intended behavior.",
+    "tags": [
+      "formal-methods",
+      "agent-engineering"
+    ]
+  }
+]

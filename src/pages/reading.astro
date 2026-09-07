@@ -1,0 +1,22 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ReadingShelf from "../components/ReadingShelf";
+import { filterReading } from "../utils/reading";
+
+export const prerender = true;
+const entries = await getCollection("reading", ({ data }) => !data.draft);
+const items = filterReading(entries.map(({ id, data }) => {
+  const { title, url, author, savedAt, note, tags } = data;
+  return { id, title, url, author, savedAt, note, tags };
+}));
+---
+
+<BaseLayout title="Reading" description="Articles I've saved from around the web, with short notes on why they're worth reading.">
+  <header class="mb-10">
+    <p class="mb-3 text-xs font-medium uppercase tracking-widest text-ink-tertiary dark:text-ink-dark-secondary">From around the web</p>
+    <h1 class="text-title mb-4">Reading</h1>
+    <p class="max-w-xl text-base leading-relaxed text-ink-secondary dark:text-ink-dark-secondary">Articles worth keeping, with a few words on why I saved them.</p>
+  </header>
+  <ReadingShelf items={items} client:load />
+</BaseLayout>
