@@ -84,7 +84,7 @@ const featuredPosts = [...posts].sort(sortForDisplay).slice(0, 4);
     <!-- Pinned articles first, followed by recent posts -->
     {featuredPosts.map((post, i) => {
       const href = `/blog/${post.id}/`;
-      const isWide = i === 0;
+      const isWide = i === 0 || i === 3;
       return (
         <article
           class:list={[
@@ -115,26 +115,21 @@ const featuredPosts = [...posts].sort(sortForDisplay).slice(0, 4);
       );
     })}
 
-    <!-- Reading shelf -->
-    <a href="/reading" class="bento-card md:col-span-2 flex items-center justify-between gap-5 group hover:-translate-y-0.5">
-      <div>
-        <p class="mb-2 text-xs font-medium uppercase tracking-wider text-ink-tertiary dark:text-ink-dark-secondary">Reading shelf</p>
-        <h2 class="text-lg font-semibold text-ink dark:text-ink-dark">Good reads, with a personal note.</h2>
-        <p class="mt-2 text-sm text-ink-secondary dark:text-ink-dark-secondary">Articles I've saved from around the web.</p>
-      </div>
-      <span class="text-xl text-ink-tertiary dark:text-ink-dark-secondary group-hover:text-ink dark:group-hover:text-ink-dark" aria-hidden="true">&rarr;</span>
-    </a>
-
-    <!-- View All Posts Card -->
-    <a
-      href="/blog"
-      class="bento-card flex items-center justify-center group hover:-translate-y-0.5"
-    >
-      <div class="text-center">
-        <span class="text-sm font-medium text-ink-secondary dark:text-ink-dark-secondary group-hover:text-ink dark:group-hover:text-ink-dark transition-colors">
-          View all posts &rarr;
-        </span>
-      </div>
-    </a>
+    <!-- Collection navigation -->
+    <nav aria-label="Explore writing and reading" class="grid grid-cols-1 sm:grid-cols-2 gap-4 md:col-span-3 md:gap-5">
+      {[
+        { href: "/blog", label: "Writing", title: "View all posts", description: "Notes on agents, infrastructure, and software engineering." },
+        { href: "/reading", label: "Reading", title: "Browse saved reads", description: "Articles from around the web, with a short personal recommendation." },
+      ].map(({ href, label, title, description }) => (
+        <a href={href} class="bento-card group flex items-start justify-between gap-5 hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent">
+          <div class="min-w-0">
+            <p class="mb-2 text-xs font-medium uppercase tracking-wider text-ink-tertiary dark:text-ink-dark-secondary">{label}</p>
+            <h2 class="text-lg font-semibold text-ink dark:text-ink-dark">{title}</h2>
+            <p class="mt-2 text-sm leading-relaxed text-ink-secondary dark:text-ink-dark-secondary">{description}</p>
+          </div>
+          <span class="mt-6 flex-none text-xl text-ink-tertiary dark:text-ink-dark-secondary transition-transform group-hover:translate-x-1 group-hover:text-ink dark:group-hover:text-ink-dark" aria-hidden="true">&rarr;</span>
+        </a>
+      ))}
+    </nav>
   </div>
 </BaseLayout>
