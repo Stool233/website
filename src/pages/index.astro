@@ -3,7 +3,6 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import PostTagStrip from "../components/PostTagStrip";
 import PinnedBadge from "../components/PinnedBadge";
 import { sortForDisplay } from "../utils/blog";
-import WeChatLink from "../components/WeChatLink.astro";
 import siteConfig from "../site-config";
 import { getPosts } from "../utils/posts";
 
@@ -58,7 +57,6 @@ const featuredPosts = [...posts].sort(sortForDisplay).slice(0, 4);
           </svg>
           <span class="text-sm font-medium text-ink-secondary dark:text-ink-dark-secondary group-hover:text-ink dark:group-hover:text-ink-dark transition-colors">X (Twitter)</span>
         </a>
-        <WeChatLink variant="card" />
         <a
           href="mailto:christry.stool@gmail.com"
           aria-label="Send email"

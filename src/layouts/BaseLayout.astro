@@ -3,7 +3,6 @@ import { ViewTransitions } from "astro:transitions";
 import BaseHead from "../components/BaseHead.astro";
 import Header from "../components/Header";
 import Footer from "../components/Footer.astro";
-import WeChatDialog from "../components/WeChatDialog.astro";
 
 const {
   pageOperate = false,
@@ -40,7 +39,6 @@ const {
       <slot />
     </main>
     <Footer />
-    <WeChatDialog />
 
     <!-- Cursor Spotlight -->
     <div id="spotlight" class="pointer-events-none fixed inset-0 z-30 opacity-0 transition-opacity duration-300"></div>
