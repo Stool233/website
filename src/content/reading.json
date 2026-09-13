@@ -69,5 +69,29 @@
       "formal-methods",
       "agent-engineering"
     ]
+  },
+  {
+    "id": "the-agent-access-model",
+    "title": "The Agent Access Model",
+    "url": "https://blog.cloudflare.com/the-agent-access-model/",
+    "author": "Matt Silverlock",
+    "savedAt": "2026-09-13",
+    "note": "A useful reference for designing agent permissions around the data an agent has already seen. The Trust Ratchet makes the timing of access restrictions concrete: enforcement must be in place before sensitive responses reach the model.",
+    "tags": [
+      "ai-infrastructure",
+      "agent-engineering"
+    ]
+  },
+  {
+    "id": "compilers-2-ai-as-stochastic-optimizer",
+    "title": "Compilers 2.0: AI as stochastic optimizer",
+    "url": "https://x.com/i/article/2094865284024991744",
+    "author": "@cdleary",
+    "savedAt": "2026-09-08",
+    "note": "A compelling way to think about AI-generated code: use models to explore optimizations while explicit contracts and semantic checks constrain the result. The compiler analogy clarifies why understanding the high-level program can matter more than reading every generated instruction.",
+    "tags": [
+      "ai-coding",
+      "formal-methods"
+    ]
   }
 ]
