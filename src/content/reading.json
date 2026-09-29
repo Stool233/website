@@ -93,5 +93,17 @@
       "ai-coding",
       "formal-methods"
     ]
+  },
+  {
+    "id": "the-internet-discovers-tla-now-what",
+    "title": "The internet discovers TLA+. Now what?",
+    "url": "https://reasonable.io/blog/tla-tutorial/",
+    "author": "Anna Mészáros, Szilvia Ujváry, Kseniia Strelbytska, Balázs Szilágyi, Ferenc Huszár",
+    "savedAt": "2026-09-26",
+    "note": "A practical introduction to TLA+ through leader election, safety, and liveness. The discussion of Verus and proof-generating agents makes it especially useful for understanding what remains between checking a finite model and verifying the software that implements it.",
+    "tags": [
+      "formal-methods",
+      "ai-coding"
+    ]
   }
 ]
