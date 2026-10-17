@@ -41,7 +41,7 @@ order: 1
 
 当前排序：
 
-1. `cloud-agents-api-architecture.md`（Durable State, Disposable Compute）
+1. `cloud-agents-api-architecture.md`（Durable State, Disposable Compute: How We Built Our Cloud Agents API）
 2. `agent-harness-performance-takehome.md`（Building a Lab for the Model）
 
 ## 验证

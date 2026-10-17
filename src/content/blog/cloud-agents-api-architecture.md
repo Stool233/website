@@ -1,7 +1,5 @@
 ---
-title: "Durable State, Disposable Compute"
-seoTitle: "Durable State, Disposable Compute: How We Built Our Cloud Agents API"
-subtitle: "How We Built Our Cloud Agents API"
+title: "Durable State, Disposable Compute: How We Built Our Cloud Agents API"
 description: "How we built a company-wide cloud Agents API: the agent loop runs in the cloud on DeepSeek Harness, its state is durably persisted, and tools run through an executor built on Codex exec-server."
 date: "2026-10-18"
 tags: ["ai-infrastructure", "agent-engineering"]
