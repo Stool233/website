@@ -84,26 +84,38 @@ Imagine an on-call Agent on the platform. One night, the error rate of the order
 Plotted on one timeline:
 
 ```mermaid
+---
+config:
+    gantt:
+        useWidth: 900
+        leftPadding: 100
+        rightPadding: 110
+        barHeight: 24
+        barGap: 8
+        fontSize: 14
+        sectionFontSize: 14
+---
 gantt
     title The on-call Agent's night
     dateFormat HH:mm
     axisFormat %H:%M
+    tickInterval 2hour
     todayMarker off
     section Session
-    Exists from alert to review :active, 02:10, 10:45
+    Alert to review :active, 02:10, 10:45
     section Workspace
-    Preloaded repos and notes kept throughout :active, 02:10, 10:45
+    Repos and notes retained :active, 02:10, 10:45
     section Harness process
     Investigate and fix :02:10, 02:40
-    Waiting for approval with no process :done, 02:40, 08:05
-    Platform upgrades Workers :milestone, 03:00, 0m
+    Await approval (no process) :done, 02:40, 08:05
+    Worker upgrade :milestone, 03:00, 0m
     Roll back and report :08:05, 08:20
-    Add a test case :10:30, 10:45
+    Add test :10:30, 10:45
     section Containers
-    Container A reads code and runs tests :02:16, 02:30
-    Container A runs out of memory :milestone, 02:30, 0m
-    Container B reruns the tests :02:31, 02:40
-    Container C adds a test case :10:30, 10:45
+    A — code and tests :02:16, 02:30
+    A — out of memory :milestone, 02:30, 0m
+    B — rerun tests :02:31, 02:40
+    C — add test :10:30, 10:45
 ```
 
 Over these eight-plus hours, three containers came and went and the harness process was replaced during the platform upgrade, yet the task never stopped. Only the session record and the files in the workspace existed the whole time. Here is what this night requires from the components, and our corresponding choices:

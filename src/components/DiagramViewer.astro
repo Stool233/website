@@ -80,10 +80,10 @@
     }, { signal });
 
     dialog.addEventListener('click', (event) => {
-      if (event.target === dialog) dialog.close();
+      if (event.target === dialog) close();
       const action = event.target instanceof Element
         ? event.target.closest<HTMLButtonElement>('[data-action]')?.dataset.action : undefined;
-      if (action === 'close') dialog.close();
+      if (action === 'close') close();
       if (action === 'fit') fit();
       if (action === 'in' || action === 'out' || action === 'actual') {
         fitting = false;
@@ -97,15 +97,20 @@
       source = undefined;
       image.removeAttribute('src');
     }
-    dialog.addEventListener('close', release, { signal });
+    function close() {
+      if (!dialog.open) return;
+      release();
+      dialog.close();
+    }
+    dialog.addEventListener('cancel', (event) => {
+      event.preventDefault();
+      close();
+    }, { signal });
     window.addEventListener('resize', () => {
       if (dialog.open && fitting) fit();
     }, { signal });
     document.addEventListener('astro:before-swap', () => {
-      if (dialog.open) {
-        dialog.close();
-        release();
-      }
+      close();
       controller.abort();
     }, { once: true, signal });
   }
