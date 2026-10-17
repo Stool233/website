@@ -1,4 +1,4 @@
-# 博客分类与置顶
+# 博客分类与排序
 
 文章仍保存在 `src/content/blog/`，通过文件顶部的 frontmatter 管理。
 
@@ -24,22 +24,25 @@ tags: ["agent-engineering"]
 
 点击首页、博客列表或文章详情中的分类，会进入对应分类页。这些页面预先生成，没有 JavaScript 时也能浏览。搜索在浏览器中匹配标题、摘要、文章 slug 和分类名称，不搜索正文；搜索词保存在 URL 的 `q` 参数中，支持刷新和分享。切换分类会保留搜索词。
 
-## 置顶
+## 排序
 
-在需要置顶的文章中添加：
+默认按日期倒序排列。需要让某篇文章排在前面时，在 frontmatter 中添加正整数 `order`：
 
 ```yaml
-pinned: true
+order: 1
 ```
 
-- 首页优先展示置顶文章，再用最新文章补足四篇。
-- 博客及分类页将匹配的置顶文章单独显示在顶部，普通列表不会重复展示。
-- 多篇置顶文章之间按日期倒序排列；其余文章仍按年份和日期归档。
-- 置顶文章也遵守分类和搜索条件，不会出现在无关结果中。
-- 删除 `pinned` 或设置 `pinned: false` 即可取消置顶。
-- RSS 保持日期倒序，置顶不会改变订阅顺序；生产构建仍排除草稿。
+- 带 `order` 的文章排在最前，数字越小越靠前；`order` 相同时按日期倒序。
+- 首页先展示带 `order` 的文章，再用最新文章补足四篇。
+- 博客及分类页把匹配的 `order` 文章放在顶部的 Featured 区域，普通列表不会重复展示。
+- 这些文章也遵守分类和搜索条件，不会出现在无关结果中。
+- 删除 `order` 即恢复按日期排序。
+- RSS 保持日期倒序，`order` 不改变订阅顺序；生产构建仍排除草稿。
 
-当前置顶：`agent-harness-performance-takehome.md`（Building a Lab for the Model）。
+当前排序：
+
+1. `cloud-agents-api-architecture.md`（Durable State, Disposable Compute）
+2. `agent-harness-performance-takehome.md`（Building a Lab for the Model）
 
 ## 验证
 

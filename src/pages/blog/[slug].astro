@@ -2,7 +2,6 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import TableOfContents from "../../components/TableOfContents";
 import PostTagStrip from "../../components/PostTagStrip";
-import PinnedBadge from "../../components/PinnedBadge";
 import { getPosts } from "../../utils/posts";
 import { render } from "astro:content";
 
@@ -72,7 +71,6 @@ const isoDate =
 
         <div class="flex items-center gap-3 text-sm text-ink-tertiary dark:text-ink-dark-tertiary mt-4 flex-wrap">
           <time class="tabular-nums" datetime={isoDate}>{date}</time>
-          {post.data.pinned && <PinnedBadge />}
           <PostTagStrip tags={tags} />
         </div>
       </header>

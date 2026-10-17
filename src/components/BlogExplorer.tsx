@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { blogTopics, topicIds, topicHref, type BlogTopic } from "../blog-config";
-import { filterPosts, type PostSummary } from "../utils/blog";
+import { filterPosts, isOrdered, type PostSummary } from "../utils/blog";
 import ListPosts from "./ListPosts";
 
 export default function BlogExplorer({ posts, topic }: { posts: PostSummary[]; topic?: BlogTopic }) {
@@ -28,8 +28,8 @@ export default function BlogExplorer({ posts, topic }: { posts: PostSummary[]; t
   }
 
   const results = filterPosts(posts, query, topic);
-  const pinned = results.filter((post) => post.data.pinned);
-  const regular = results.filter((post) => !post.data.pinned);
+  const featured = results.filter(isOrdered);
+  const regular = results.filter((post) => !isOrdered(post));
   const searched = filterPosts(posts, query);
   const tabs = [
     { id: undefined, label: "All posts", count: searched.length },
@@ -73,9 +73,9 @@ export default function BlogExplorer({ posts, topic }: { posts: PostSummary[]; t
         </div>
       ) : (
         <>
-          {pinned.length > 0 && <section aria-labelledby="pinned-heading" className="mb-10">
-            <h2 id="pinned-heading" className="mb-4 text-sm font-semibold text-ink dark:text-ink-dark">Pinned</h2>
-            <ListPosts list={pinned} groupByYear={false} />
+          {featured.length > 0 && <section aria-labelledby="featured-heading" className="mb-10">
+            <h2 id="featured-heading" className="mb-4 text-sm font-semibold text-ink dark:text-ink-dark">Featured</h2>
+            <ListPosts list={featured} groupByYear={false} />
           </section>}
           {regular.length > 0 && <section aria-labelledby="archive-heading">
             <h2 id="archive-heading" className="text-sm font-semibold text-ink dark:text-ink-dark">{query.trim() ? "Search results" : "Latest writing"}</h2>

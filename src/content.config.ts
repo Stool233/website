@@ -23,7 +23,7 @@ const blog = defineCollection({
     draft: z.boolean().optional().default(false),
     tags: z.array(z.enum(topicIds)).min(1).max(3)
       .refine((tags) => new Set(tags).size === tags.length, "Use each topic only once"),
-    pinned: z.boolean().default(false),
+    order: z.number().int().positive().optional(),
     image: z
       .object({
         src: z.string(),

@@ -1,5 +1,4 @@
 import PostTagStrip from "./PostTagStrip";
-import PinnedBadge from "./PinnedBadge";
 import type { PostSummary } from "../utils/blog";
 
 export default function ListPosts({ list, groupByYear = true }: { list: PostSummary[]; groupByYear?: boolean }) {
@@ -13,12 +12,9 @@ export default function ListPosts({ list, groupByYear = true }: { list: PostSumm
             {groupByYear && year !== previousYear && (
               <h3 className="pt-6 pb-3 text-sm font-semibold text-ink-tertiary dark:text-ink-dark-tertiary">{year}</h3>
             )}
-            <article className={`rounded-xl border p-5 transition-colors ${post.data.pinned
-              ? "border-accent/20 bg-accent/5"
-              : "border-slate-200/70 dark:border-slate-700/50 hover:bg-surface-secondary/50 dark:hover:bg-surface-dark-secondary/50"}`}>
-              <div className="mb-3 flex flex-wrap items-center gap-3 text-xs text-ink-tertiary dark:text-ink-dark-tertiary">
+            <article className="rounded-xl border border-slate-200/70 dark:border-slate-700/50 p-5 transition-colors hover:bg-surface-secondary/50 dark:hover:bg-surface-dark-secondary/50">
+              <div className="mb-3 text-xs text-ink-tertiary dark:text-ink-dark-tertiary">
                 <time dateTime={new Date(post.data.date).toISOString()}>{post.data.date}</time>
-                {post.data.pinned && <PinnedBadge />}
               </div>
               <h3 className="mb-2 text-xl font-semibold leading-snug text-ink dark:text-ink-dark">
                 <a href={`/blog/${post.id}/`} className="hover:underline underline-offset-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent">

@@ -1,7 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import PostTagStrip from "../components/PostTagStrip";
-import PinnedBadge from "../components/PinnedBadge";
 import { sortForDisplay } from "../utils/blog";
 import siteConfig from "../site-config";
 import { getPosts } from "../utils/posts";
@@ -79,7 +78,7 @@ const featuredPosts = [...posts].sort(sortForDisplay).slice(0, 4);
       </div>
     </div>
 
-    <!-- Pinned articles first, followed by recent posts -->
+    <!-- Ordered articles first, followed by recent posts -->
     {featuredPosts.map((post, i) => {
       const href = `/blog/${post.id}/`;
       const isWide = i === 0 || i === 3;
@@ -95,7 +94,6 @@ const featuredPosts = [...posts].sort(sortForDisplay).slice(0, 4);
               <time class="tabular-nums flex-none" datetime={new Date(post.data.date).toISOString()}>
                 {post.data.date}
               </time>
-              {post.data.pinned && <PinnedBadge />}
             </div>
             <h3 class="text-lg font-semibold text-ink dark:text-ink-dark group-hover:text-ink dark:group-hover:text-ink-dark transition-colors leading-snug">
               <a href={href} class="hover:underline underline-offset-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent">{post.data.title}</a>
