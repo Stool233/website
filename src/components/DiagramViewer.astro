@@ -1,0 +1,148 @@
+<dialog id="diagram-viewer" aria-labelledby="diagram-viewer-title">
+  <div class="viewer-panel">
+    <header class="viewer-toolbar">
+      <h2 id="diagram-viewer-title">Diagram</h2>
+      <div class="viewer-controls">
+        <button type="button" data-action="out" aria-label="Zoom out">−</button>
+        <output aria-live="polite" aria-label="Zoom level">100%</output>
+        <button type="button" data-action="in" aria-label="Zoom in">+</button>
+        <button type="button" data-action="fit">Fit</button>
+        <button type="button" data-action="actual">100%</button>
+        <button type="button" data-action="close" aria-label="Close diagram" autofocus>Close ×</button>
+      </div>
+    </header>
+    <p class="viewer-help">Zoom in for details. Scroll to explore. Press Esc to close.</p>
+    <div class="viewer-viewport" tabindex="0" role="region" aria-label="Scrollable diagram">
+      <img alt="Expanded article diagram" draggable="false" />
+    </div>
+  </div>
+</dialog>
+
+<script>
+  function setupDiagramViewer() {
+    const dialog = document.querySelector<HTMLDialogElement>('#diagram-viewer');
+    if (!dialog) return;
+    const viewport = dialog.querySelector<HTMLElement>('.viewer-viewport')!;
+    const image = dialog.querySelector('img')!;
+    const output = dialog.querySelector('output')!;
+    const zoomOut = dialog.querySelector<HTMLButtonElement>('[data-action="out"]')!;
+    const zoomIn = dialog.querySelector<HTMLButtonElement>('[data-action="in"]')!;
+    const controller = new AbortController();
+    const { signal } = controller;
+    let width = 1;
+    let height = 1;
+    let zoom = 1;
+    let fitting = true;
+    let source: string | undefined;
+    let previousOverflow = '';
+
+    function setZoom(value: number) {
+      const oldZoom = zoom;
+      const centerX = (viewport.scrollLeft + viewport.clientWidth / 2) / oldZoom;
+      const centerY = (viewport.scrollTop + viewport.clientHeight / 2) / oldZoom;
+      zoom = Math.min(4, Math.max(0.1, value));
+      image.style.width = `${width * zoom}px`;
+      image.style.height = `${height * zoom}px`;
+      output.value = `${Math.round(zoom * 100)}%`;
+      zoomOut.disabled = zoom <= 0.1;
+      zoomIn.disabled = zoom >= 4;
+      viewport.scrollLeft = centerX * zoom - viewport.clientWidth / 2;
+      viewport.scrollTop = centerY * zoom - viewport.clientHeight / 2;
+    }
+
+    function fit() {
+      fitting = true;
+      setZoom(Math.min(1, (viewport.clientWidth - 32) / width, (viewport.clientHeight - 32) / height));
+      viewport.scrollTo(0, 0);
+    }
+
+    document.addEventListener('click', (event) => {
+      const trigger = event.target instanceof Element
+        ? event.target.closest<HTMLButtonElement>('[data-diagram-open]') : null;
+      const svg = trigger?.querySelector('svg');
+      if (!svg || dialog.open) return;
+      const viewBox = svg.viewBox.baseVal;
+      width = viewBox.width || svg.getBoundingClientRect().width;
+      height = viewBox.height || svg.getBoundingClientRect().height;
+      const copy = svg.cloneNode(true) as SVGSVGElement;
+      copy.setAttribute('width', String(width));
+      copy.setAttribute('height', String(height));
+      copy.style.maxWidth = 'none';
+      copy.style.width = `${width}px`;
+      copy.style.height = `${height}px`;
+      // An isolated SVG image preserves Mermaid styles without duplicating DOM IDs.
+      source = URL.createObjectURL(new Blob([new XMLSerializer().serializeToString(copy)], { type: 'image/svg+xml' }));
+      image.src = source;
+      previousOverflow = document.documentElement.style.overflow;
+      document.documentElement.style.overflow = 'hidden';
+      dialog.showModal();
+      fit();
+    }, { signal });
+
+    dialog.addEventListener('click', (event) => {
+      if (event.target === dialog) dialog.close();
+      const action = event.target instanceof Element
+        ? event.target.closest<HTMLButtonElement>('[data-action]')?.dataset.action : undefined;
+      if (action === 'close') dialog.close();
+      if (action === 'fit') fit();
+      if (action === 'in' || action === 'out' || action === 'actual') {
+        fitting = false;
+        setZoom(action === 'actual' ? 1 : zoom * (action === 'in' ? 1.25 : 0.8));
+      }
+    }, { signal });
+
+    function release() {
+      document.documentElement.style.overflow = previousOverflow;
+      if (source) URL.revokeObjectURL(source);
+      source = undefined;
+      image.removeAttribute('src');
+    }
+    dialog.addEventListener('close', release, { signal });
+    window.addEventListener('resize', () => {
+      if (dialog.open && fitting) fit();
+    }, { signal });
+    document.addEventListener('astro:before-swap', () => {
+      if (dialog.open) {
+        dialog.close();
+        release();
+      }
+      controller.abort();
+    }, { once: true, signal });
+  }
+  document.addEventListener('astro:page-load', setupDiagramViewer);
+</script>
+
+<style>
+  dialog {
+    width: calc(100vw - 2rem);
+    max-width: 1600px;
+    height: calc(100dvh - 2rem);
+    max-height: 100dvh;
+    margin: auto;
+    padding: 0;
+    border: 1px solid #e3e3e0;
+    border-radius: 12px;
+    background: #fff;
+    color: #37352f;
+  }
+  dialog::backdrop { background: rgb(0 0 0 / 65%); }
+  :global(.dark) dialog { background: #191919; color: #e5e5e5; border-color: #444; }
+  .viewer-panel { display: flex; flex-direction: column; height: 100%; }
+  .viewer-toolbar { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; padding: 12px 16px; border-bottom: 1px solid #8884; }
+  h2 { font-size: 1rem; font-weight: 600; }
+  .viewer-controls { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; }
+  button { padding: 6px 10px; min-height: 44px; min-width: 44px; border: 1px solid #8885; border-radius: 6px; font-size: 14px; cursor: pointer; }
+  button:hover { background: #8882; }
+  button:disabled { opacity: .4; cursor: default; }
+  button:focus-visible, .viewer-viewport:focus-visible { outline: 2px solid #7c5cff; outline-offset: -2px; }
+  output { min-width: 48px; text-align: center; font-size: 13px; font-variant-numeric: tabular-nums; }
+  .viewer-help { margin: 0; padding: 8px 16px; font-size: 12px; opacity: .7; }
+  .viewer-viewport { flex: 1; min-height: 0; overflow: auto; overscroll-behavior: contain; padding: 16px; }
+  img { display: block; max-width: none; margin: auto; }
+  @media (max-width: 640px) {
+    dialog { width: 100vw; height: 100dvh; max-width: 100vw; border-radius: 0; border: 0; }
+    .viewer-toolbar { padding: 8px; }
+    .viewer-controls { gap: 4px; }
+    .viewer-help { padding: 8px; }
+  }
+</style>

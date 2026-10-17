@@ -101,7 +101,29 @@
 }
 
 .prose .mermaid-diagram {
-  @apply my-8 flex justify-center;
+  @apply my-8;
+}
+
+.prose .mermaid-expand {
+  @apply w-full rounded-xl border border-slate-200 dark:border-slate-700 p-3 sm:p-5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  cursor: zoom-in;
+}
+
+.prose .mermaid-expand:hover {
+  @apply bg-surface-secondary dark:bg-surface-dark-secondary;
+}
+
+.prose .mermaid-expand:focus-visible {
+  outline: 2px solid #7c5cff;
+  outline-offset: 4px;
+}
+
+.prose .mermaid-expand-hint {
+  @apply text-xs text-ink-secondary dark:text-ink-dark-secondary;
 }
 
 .prose .mermaid-diagram svg {
