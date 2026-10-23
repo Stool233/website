@@ -61,11 +61,29 @@ export const prerender = true;
     <h2>Open Source Contributions</h2>
     <p>I've contributed to the following open-source projects:</p>
     <ul>
-      <li><strong><a href="https://github.com/tlaplus/tlaplus" target="_blank" rel="noopener noreferrer">TLA+</a></strong> — tools for working with formal specifications, including the TLC model checker and TLA+ Toolbox.</li>
-      <li><strong><a href="https://github.com/kenn-io/agentsview" target="_blank" rel="noopener noreferrer">AgentsView</a></strong> — a local-first tool for searching coding-agent sessions and exploring usage analytics and token statistics.</li>
-      <li><strong><a href="https://github.com/quickwit-oss/quickwit" target="_blank" rel="noopener noreferrer">Quickwit</a></strong> — a cloud-native search engine for observability data.</li>
-      <li><strong><a href="https://github.com/gatling/gatling" target="_blank" rel="noopener noreferrer">Gatling</a></strong> — a load-testing tool for defining performance tests as code.</li>
-      <li><strong><a href="https://github.com/chaosblade-io/chaosblade" target="_blank" rel="noopener noreferrer">ChaosBlade</a></strong> — a chaos engineering toolkit for injecting faults and testing system resilience.</li>
+      <li>
+        <strong><a href="https://github.com/tlaplus/tlaplus" target="_blank" rel="noopener noreferrer">TLA+</a></strong> — formal specification and model-checking tools.
+        Fixed a formatter bug that changed the AST structure of nested conjunction lists, and added a regression test
+        (<a href="https://github.com/tlaplus/tlaplus/pull/1396" target="_blank" rel="noopener noreferrer">PR #1396</a>, merged).
+      </li>
+      <li>
+        <strong><a href="https://github.com/kenn-io/agentsview" target="_blank" rel="noopener noreferrer">AgentsView</a></strong> — local coding-agent session search and analytics.
+        Added DeepSeek Harness integration for importing conversations, tool activity, and token usage.
+      </li>
+      <li>
+        <strong><a href="https://github.com/quickwit-oss/quickwit" target="_blank" rel="noopener noreferrer">Quickwit</a></strong> — a cloud-native search engine for observability data.
+        Diagnosed an ingest_v2 infinite loop triggered by oversized records and provided a reproducing test and patch; the fix was adapted and credited upstream
+        (<a href="https://github.com/quickwit-oss/quickwit/commit/b6cccd6b305a753a759ff4bd3e987cc823a6a4cf" target="_blank" rel="noopener noreferrer">commit b6cccd6</a>).
+      </li>
+      <li>
+        <strong><a href="https://github.com/gatling/gatling" target="_blank" rel="noopener noreferrer">Gatling</a></strong> — performance testing as code.
+        Fixed HTTP/2 connection pooling to prevent reuse of connections in the GOAWAY state
+        (<a href="https://github.com/gatling/gatling/pull/4350" target="_blank" rel="noopener noreferrer">PR #4350</a>, cherry-picked upstream).
+      </li>
+      <li>
+        <strong><a href="https://github.com/chaosblade-io/chaosblade" target="_blank" rel="noopener noreferrer">ChaosBlade</a></strong> — a chaos engineering toolkit.
+        Extended fault injection support to Apache RocketMQ and fixed JVM exception-injection and disk-fill build issues.
+      </li>
     </ul>
   </div>
 </BaseLayout>
